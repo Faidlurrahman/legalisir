@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+body {
+    background: #d2f6f6;
+    font-family: 'Montserrat', sans-serif;
+}
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.login-box {
+    background: #fff;
+    border-radius: 28px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    display: flex;
+    overflow: hidden;
+    width: 700px;
+    max-width: 95vw;
+}
+.login-left {
+    background: linear-gradient(135deg, #4fd1c5 60%, #b2f7ef 100%);
+    color: #fff;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+.login-left h2 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.login-left p {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+.login-illustration {
+    margin: 30px 0;
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-right {
+    width: 55%;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login-right h3 {
+    color: #38b2ac;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    color: #38b2ac;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #b2f7ef;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+}
+.form-control:focus {
+    border: 1.5px solid #38b2ac;
+}
+.login-btn {
+    width: 100%;
+    background: #38b2ac;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(56,178,172,0.08);
+    transition: background 0.2s;
+}
+.login-btn:hover {
+    background: #319795;
+}
+.login-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.login-links a {
+    color: #38b2ac;
+    font-size: 0.95rem;
+    text-decoration: none;
+    opacity: 0.8;
+}
+.login-links a:hover {
+    text-decoration: underline;
+    opacity: 1;
+}
