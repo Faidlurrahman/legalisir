@@ -131,7 +131,7 @@ class LegalisirController extends Controller
         }
 
         // Simpan ke database
-        data_legalisir::create([
+        $data = data_legalisir::create([
             "nama"       => $request->nama,
             "jenis_akta" => $request->jenis_akta,
             "no_akta"    => $request->no_akta,
@@ -139,7 +139,10 @@ class LegalisirController extends Controller
             "gambar"     => $filePath
         ]);
 
-        return redirect()->back()->with("success", "Pengajuan legalisir berhasil dikirim!");
+        // Redirect ke data legalisir dengan pesan sukses
+        return redirect()->route('admin.data')
+            ->with('success', 'Berhasil menambah data dengan Nomor Akta '.$data->no_akta)
+            ->with('alert_type', 'success');
     }
 
     // Tampilkan semua data legalisir (opsional untuk daftar pengajuan)
@@ -186,7 +189,6 @@ class LegalisirController extends Controller
     {
         $data = data_Legalisir::findOrFail($id);
 
-        // Validasi
         $request->validate([
             "nama"       => "required|string|max:255",
             "jenis_akta" => "required|string",
@@ -195,27 +197,30 @@ class LegalisirController extends Controller
             "gambar"     => "nullable|image|mimes:jpg,jpeg,png|max:2048"
         ]);
 
-        // Upload file jika ada
         if ($request->hasFile("gambar")) {
             $filePath = $request->file("gambar")->store("legalisir", "public");
             $data->gambar = $filePath;
         }
 
-        // Update data
         $data->nama = $request->nama;
         $data->jenis_akta = $request->jenis_akta;
         $data->no_akta = $request->no_akta;
         $data->alasan = $request->alasan;
         $data->save();
 
-        return redirect()->route('admin.data')->with('success', 'Data berhasil diupdate!');
+        return redirect()->route('admin.data')
+            ->with('success', 'Data dengan Nomor Akta '.$data->no_akta.' berhasil diupdate!')
+            ->with('alert_type', 'warning');
     }
 
     public function delete($id)
     {
         $data = data_Legalisir::findOrFail($id);
+        $no_akta = $data->no_akta;
         $data->delete();
-        return redirect()->route('admin.data')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('admin.data')
+            ->with('success', 'Data dengan Nomor Akta '.$no_akta.' berhasil dihapus!')
+            ->with('alert_type', 'danger');
     }
 
     // Halaman Laporan Legalisir
@@ -243,7 +248,7 @@ class LegalisirController extends Controller
                     break;
             }
         }
-        $data = $query->orderBy('created_at', 'desc')->paginate(15);
+        $data = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.laporan', compact('data'));
     }
 }

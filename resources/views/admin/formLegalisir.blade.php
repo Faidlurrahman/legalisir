@@ -1,15 +1,112 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="container py-5">
-    <h2 class="mb-4 text-center fw-bold" style="color:rgb(0,119,62)"><i class="fa fa-file-alt me-2" style="color:rgb(0,119,62)"></i>Form Pengajuan Legalisir Akta</h2>
+<style>
+    /* ===== CARD UTAMA ===== */
+    .legalisir-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        padding: 40px 50px;
+        margin-top: 15px;
+    }
 
-    {{-- Notifikasi sukses --}}
+    /* ===== JUDUL ===== */
+    .form-title {
+        color: #0b5b57;
+        font-weight: 700;
+        margin-bottom: 25px;
+        margin-top: -10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* ===== INPUT & LABEL ===== */
+    .form-group label {
+        font-weight: 500;
+        color: #0b5b57;
+    }
+
+    .form-control, select, textarea {
+        border: none;
+        border-bottom: 2px solid #d0d0d0;
+        border-radius: 0;
+        box-shadow: none;
+        transition: all 0.3s ease;
+        padding: 8px 5px;
+    }
+
+    .form-control:focus, textarea:focus {
+        border-color: #0b5b57;
+        box-shadow: none;
+    }
+
+    /* Biar textarea tidak melebar ke kanan */
+    .form-textarea-limited {
+        min-height: 180px;
+        resize: vertical;
+        width: 95%; /* samakan lebar dengan input lainnya */
+    }
+
+    /* ===== Upload Image Container ===== */
+    .upload-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .upload-container img {
+        max-width: 120px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-top: 5px;
+        cursor: pointer;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-submit {
+        background: #0b5b57;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px 35px;
+        border-radius: 8px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+        background: #0a4c48;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .legalisir-card {
+            padding: 25px;
+        }
+        .form-textarea-limited {
+            width: 100%;
+        }
+        .upload-container {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<div class="container py-4">
+    {{-- Judul tetap di kiri atas --}}
+    <h2 class="form-title">
+        <i class="fa fa-file-signature" style="color:#0b5b57;"></i>
+        Form Pengajuan Legalisir Akta
+    </h2>
+
+    {{-- Notifikasi --}}
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- Notifikasi error --}}
     @if($errors->any())
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -20,48 +117,65 @@
         </div>
     @endif
 
-    <form action="{{ route('formLegalisir.store') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded bg-white">
-        @csrf
-        <div class="form-group mb-3">
-            <label for="nama" style="color:rgb(0,119,62);font-weight:500;">Nama Pemohon</label>
-            <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama') }}" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="jenis_akta" style="color:rgb(0,119,62);font-weight:500;">Jenis Akta</label>
-            <select name="jenis_akta" id="jenis_akta" class="form-control" required style="border-color:rgb(0,119,62);color:rgb(0,119,62)">
-                <option value="">-- Pilih Jenis Akta --</option>
-                <option value="kelahiran" {{ old('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
-                <option value="kematian" {{ old('jenis_akta')=='kematian'?'selected':'' }}>Akta Kematian</option>
-                <option value="perkawinan" {{ old('jenis_akta')=='perkawinan'?'selected':'' }}>Akta Perkawinan</option>
-                <option value="perceraian" {{ old('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
-            </select>
-        </div>
-        <div class="form-group mb-3">
-            <label for="no_akta" style="color:rgb(0,119,62);font-weight:500;">Nomor Akta</label>
-            <input type="text" name="no_akta" id="no_akta" class="form-control" value="{{ old('no_akta') }}" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="alasan" style="color:rgb(0,119,62);font-weight:500;">Alasan Legalisir</label>
-            <textarea name="alasan" id="alasan" class="form-control" rows="3">{{ old('alasan') }}</textarea>
-        </div>
-        <div class="form-group mb-4">
-            <label for="gambar" style="color:rgb(0,119,62);font-weight:500;">Upload Foto Akta</label>
-            <input type="file" name="gambar" id="gambar" class="form-control" accept="image/*">
-            <small class="form-text text-muted">Format: jpg, jpeg, png. Maksimal 2MB.</small>
+    {{-- CARD FORM --}}
+    <div class="legalisir-card">
+        <form action="{{ route('formLegalisir.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-            {{-- Thumbnail Preview --}}
-            <div class="mt-3 text-start">
-                <img id="preview" src="#" alt="Preview Gambar"
-                     class="img-thumbnail d-none"
-                     style="max-width:150px; cursor:pointer;"
-                     data-bs-toggle="modal" data-bs-target="#previewModal">
+            <div class="row g-4">
+                {{-- Nama Pemohon --}}
+                <div class="col-md-6 form-group">
+                    <label for="nama">Nama Pemohon</label>
+                    <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama') }}" required>
+                </div>
+
+                {{-- Jenis Akta --}}
+                <div class="col-md-6 form-group">
+                    <label for="jenis_akta">Jenis Akta</label>
+                    <select name="jenis_akta" id="jenis_akta" class="form-control" required>
+                        <option value="">-- Pilih Jenis Akta --</option>
+                        <option value="kelahiran" {{ old('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
+                        <option value="kematian" {{ old('jenis_akta')=='kematian'?'selected':'' }}>Akta Kematian</option>
+                        <option value="perkawinan" {{ old('jenis_akta')=='perkawinan'?'selected':'' }}>Akta Perkawinan</option>
+                        <option value="perceraian" {{ old('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
+                    </select>
+                </div>
+
+                {{-- Nomor Akta --}}
+                <div class="col-md-6 form-group">
+                    <label for="no_akta">Nomor Akta</label>
+                    <input type="text" name="no_akta" id="no_akta" class="form-control" value="{{ old('no_akta') }}" required>
+                </div>
+
+                {{-- Upload Foto Akta + Preview --}}
+                <div class="col-md-6 form-group">
+                    <label for="gambar">Upload Foto Akta</label>
+                    <div class="upload-container">
+                        <div>
+                            <input type="file" name="gambar" id="gambar" class="form-control" accept="image/*">
+                            <small class="text-muted">Format: jpg, jpeg, png (Maks 2MB)</small>
+                        </div>
+                        <img id="preview" src="#" alt="Preview" class="d-none"
+                            data-bs-toggle="modal" data-bs-target="#previewModal">
+                    </div>
+                </div>
+
+                {{-- Alasan Legalisir (panjang ke bawah, tidak terdorong gambar) --}}
+                <div class="col-md-6 form-group">
+                    <label for="alasan">Alasan Legalisir</label>
+                    <textarea name="alasan" id="alasan" class="form-control form-textarea-limited">{{ old('alasan') }}</textarea>
+                </div>
             </div>
-        </div>
-        <button type="submit" class="btn w-100" style="background:rgb(0,119,62);color:#fff;font-weight:bold;">Submit Pengajuan</button>
-    </form>
+
+            {{-- Tombol Submit (rata kanan) --}}
+            <div class="text-end mt-4">
+                <button type="submit" class="btn-submit">Submit Pengajuan</button>
+            </div>
+        </form>
+    </div>
 </div>
 
-{{-- Modal Pop-up --}}
+{{-- Modal Preview --}}
 <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content bg-dark border-0">
@@ -72,7 +186,7 @@
   </div>
 </div>
 
-{{-- Script Preview --}}
+{{-- Script Preview Gambar --}}
 <script>
     const inputFile = document.getElementById('gambar');
     const preview = document.getElementById('preview');

@@ -2,20 +2,57 @@
 
 @section('content')
 <style>
-    body, main.flex-fill {
+    body,
+    main.flex-fill {
         background: #fff !important;
     }
-    .table-header-green th {
-    background: rgb(0,119,62) !important;
-    color: #fff !important;
+
+    /* Ganti semua hijau ke hijau layout */
+    .table-header-green th,
+    .table-header-green th:first-child {
+        background: #0b5b57 !important;
+        color: #fff !important;
     }
-      .table-header-green th:first-child {
-    background: rgb(0,119,62) !important;
-    color: #fff !important;
+    .btn-success,
+    .btn-success:focus,
+    .btn-success:active,
+    .btn-success:hover,
+    .btn[style*="background:rgb(0,119,62)"] {
+        background: #0b5b57 !important;
+        border-color: #0b5b57 !important;
+        color: #fff !important;
+    }
+    .table-green-row,
+    tr[style*="background:rgb(0,119,62)"] {
+        background: #0b5b57 !important;
+        color: #fff !important;
+    }
+    h2.fw-bold,
+    h2.fw-bold i,
+    h2.mb-4.fw-bold,
+    h2.mb-4.fw-bold i {
+        color: #0b5b57 !important;
+    }
+
+    .alasan-ellipsis {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* maksimal 3 baris */
+        line-clamp: 3;
+        /* standard property for compatibility */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+        max-width: 220px;
+        /* atur sesuai kebutuhan */
+        font-size: 0.97rem;
+        line-height: 1.3;
+        min-width: 80px;
     }
 </style>
-<h2 class="mb-4 fw-bold" style="color:rgb(0,119,62)">
-    <i class="fa fa-file-alt me-2" style="color:rgb(0,119,62)"></i>Laporan Data Legalisir
+<h2 class="mb-4 fw-bold" style="color:#0b5b57">
+    <i class="fa fa-clipboard-list me-2" style="color:#0b5b57"></i>Laporan Data Legalisir
 </h2>
 
 <form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light" id="filterForm">
@@ -40,12 +77,12 @@
         </select>
     </div>
     <div class="col-md-2">
-        <button class="btn w-100" type="submit" style="background:rgb(0,119,62);border-color:rgb(0,119,62);color:#fff;">
+        <button class="btn w-100" type="submit" style="background:#0b5b57;border-color:#0b5b57;color:#fff;">
             <i class="fa fa-search"></i> Filter
         </button>
     </div>
     <div class="col-md-2 text-end">
-        <button type="button" class="btn btn-success me-2" onclick="window.print()" style="background:rgb(0,119,62);border-color:rgb(0,119,62);color:#fff;">
+        <button type="button" class="btn btn-success me-2" onclick="window.print()" style="background:#0b5b57;border-color:#0b5b57;color:#fff;">
             <i class="fa fa-print"></i> Print
         </button>
     </div>
@@ -81,26 +118,46 @@
 </script>
 
 <style>
-@media print {
-    body {
-        background: #fff !important;
-        color: #222 !important;
+    @media print {
+        body {
+            background: #fff !important;
+            color: #222 !important;
+        }
+
+        .sidebar,
+        .btn,
+        .navbar,
+        .logout,
+        .filter-form,
+        .pagination,
+        .alert,
+        .print-header,
+        h2,
+        form,
+        .d-flex,
+        .mb-4,
+        .fw-bold,
+        .text-primary {
+            display: none !important;
+        }
+
+        .table-card,
+        .table-responsive,
+        .shadow-sm,
+        .rounded {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            background: #fff !important;
+        }
+
+        .table {
+            font-size: 12px;
+        }
     }
-    .sidebar, .btn, .navbar, .logout, .filter-form, .pagination, .alert, .print-header, h2, form, .d-flex, .mb-4, .fw-bold, .text-primary {
-        display: none !important;
+
+    .print-header {
+        display: none;
     }
-    .table-card, .table-responsive, .shadow-sm, .rounded {
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        background: #fff !important;
-    }
-    .table {
-        font-size: 12px;
-    }
-}
-.print-header {
-    display: none;
-}
 </style>
 
 <div class="print-header">
@@ -113,21 +170,21 @@
     <table class="table table-bordered align-middle table-hover">
         <thead class="table-header-green">
             <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Jenis Akta</th>
-                <th>Nomor Akta</th>
-                <th>Tanggal Permohonan</th>
-                <th>Alasan</th>
-                <th>Gambar</th>
+                <th style="text-align: center;">No</th>
+                <th style="text-align: center;">Nama</th>
+                <th style="text-align: center;">Jenis Akta</th>
+                <th style="text-align: center;">Nomor Akta</th>
+                <th style="text-align: center;">Tanggal Permohonan</th>
+                <th style="text-align: center;">Alasan</th>
+                <th style="text-align: center;">Gambar</th>
             </tr>
         </thead>
         <tbody>
             @forelse($data as $row)
-            <tr @if($loop->first) style="background:rgb(0,119,62);color:#fff;" @endif>
-                <td>{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
+            <tr @if($loop->first) style="background:#0b5b57;color:#fff;" @endif>
+                <td style="background:#fff;color:#222;font-weight:bold;text-align:center;">{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
                 <td>{{ $row->nama }}</td>
-                <td>
+                <td style="text-align: center;">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
                         @elseif($row->jenis_akta == 'kematian') bg-danger
@@ -139,18 +196,18 @@
                         {{ ucfirst($row->jenis_akta) }}
                     </span>
                 </td>
-                <td>{{ $row->no_akta }}</td>
-                <td>{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
-                <td>{{ $row->alasan ?? '-' }}</td>
-                <td>
+                <td style="text-align: center;">{{ $row->no_akta }}</td>
+                <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
+                <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
+                <td style="text-align: center;">
                     @if($row->gambar)
-                        <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
-                            <img src="{{ asset('storage/'.$row->gambar) }}" 
-                                 alt="Gambar" 
-                                 style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">
-                        </a>
+                    <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
+                        <img src="{{ asset('storage/'.$row->gambar) }}"
+                            alt="Gambar"
+                            style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">
+                    </a>
                     @else
-                        <span class="text-muted">Tidak ada</span>
+                    <span class="text-muted">Tidak ada</span>
                     @endif
                 </td>
             </tr>
@@ -166,13 +223,14 @@
 </div>
 
 @if ($data->hasPages())
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
-        <div class="text-muted small mb-2 mb-md-0">
-            Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
-        </div>
-        <div>
-            {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
-        </div>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+    <div class="text-muted small mb-2 mb-md-0">
+        Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
     </div>
+    <div>
+        {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+    </div>
+</div>
 @endif
+
 @endsection

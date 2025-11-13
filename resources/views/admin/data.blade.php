@@ -1,25 +1,55 @@
 @extends('admin.layout')
 
 @section('content')
-<h2 class="mb-4 fw-bold" style="color:rgb(0,119,62)">
-    <i class="fa fa-database me-2" style="color:rgb(0,119,62)"></i>Data Permohonan Legalisir
+<h2 class="mb-4 fw-bold" style="color:#0b5b57">
+    <i class="fa fa-folder-open me-2" style="color:#0b5b57"></i>Data Permohonan Legalisir
 </h2>
+
+
+@php
+    $type = session('alert_type', 'success');
+@endphp
+
+{{-- Alert Berwarna --}}
+@if(session('success'))
+<div class="alert alert-{{ $type }} alert-dismissible fade show" role="alert" id="successAlert">
+    @if($type == 'success')
+        <i class="fa fa-check-circle me-2"></i>
+    @elseif($type == 'warning')
+        <i class="fa fa-exclamation-triangle me-2"></i>
+    @elseif($type == 'danger')
+        <i class="fa fa-trash-alt me-2"></i>
+    @endif
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 
 {{-- Form Filter --}}
 
 <style>
 #editModal .modal-dialog {
-    max-width: 350px !important;
-    width: 95vw;
+    max-width: 500px !important; /* Lebar modal diperkecil */
+    width: 98vw;
     margin: 0 auto;
 }
 #editModal .modal-content {
+    max-height: 80vh; /* Batasi tinggi modal */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(56,178,172,0.10);
+    box-shadow: 0 2px 16px rgba(11,91,87,0.10); /* hijau layout */
     padding: 0.5rem 0.5rem;
-    /* Hapus max-height dan overflow agar tidak scroll */
+}
+@media (max-width: 700px) {
+    #editModal .modal-dialog {
+        max-width: 98vw !important;
+    }
 }
 #editModal .modal-body {
+    max-height: 60vh; /* Batasi tinggi isi modal */
+    overflow-y: auto;
     padding: 0.5rem 0.5rem;
 }
 #editModal .form-label {
@@ -53,67 +83,82 @@
     max-height: 45px;
     margin-top: 4px;
 }
-.btn-filter-green {
-    background: rgb(0,119,62) !important;
-    border-color: rgb(0,119,62) !important;
+/* Ganti hijau ke hijau layout */
+.btn-filter-green,
+.btn-success,
+.btn-filter-green:focus,
+.btn-success:focus {
+    background: #0b5b57 !important;
+    border-color: #0b5b57 !important;
     color: #fff !important;
+    font-weight: bold;
 }
 .table-header-green th {
-    background: rgb(0,119,62) !important;
+    background: #0b5b57 !important;
     color: #fff !important;
 }
 .table-header-green th:first-child {
-    background: rgb(0,119,62) !important;
+    background: #0b5b57 !important;
     color: #fff !important;
 }
 .table-green-row {
-    background: rgb(220,245,235) !important;
+    background: #d5eae9 !important; /* hijau muda layout */
+}
+.alasan-ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    max-width: 220px;
+    font-size: 0.97rem;
+    line-height: 1.3;
+    min-width: 80px;
 }
 </style>
-<form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light">
-    <div class="col-md-3">
-        <input type="text" name="search" class="form-control" placeholder="Cari nama / nomor akta" value="{{ request('search') }}">
-    </div>
-    <div class="col-md-2">
-        <select name="jenis_akta" class="form-select">
+<div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
+    <form method="GET" class="d-flex flex-wrap gap-2 flex-grow-1">
+        <input type="text" name="search" class="form-control" style="max-width:180px" placeholder="Cari nama / nomor akta" value="{{ request('search') }}">
+        <select name="jenis_akta" class="form-select" style="max-width:140px">
             <option value="">Jenis Akta</option>
             <option value="kelahiran" {{ request('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
             <option value="kematian" {{ request('jenis_akta')=='kematian'?'selected':'' }}>Akta Kematian</option>
             <option value="perkawinan" {{ request('jenis_akta')=='perkawinan'?'selected':'' }}>Akta Perkawinan</option>
             <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
         </select>
-    </div>
-    <div class="col-md-2">
-        <input type="date" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
-    </div>
-    <div class="col-md-2">
-        <button class="btn btn-filter-green w-100" type="submit">
+        <input type="date" name="tanggal" class="form-control" style="max-width:150px" value="{{ request('tanggal') }}">
+        <button class="btn btn-filter-green" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
-    </div>
-</form>
+    </form>
+    <a href="{{ route('formLegalisir') }}" class="btn btn-success" style="background:rgb(0,119,62);border-color:rgb(0,119,62);font-weight:bold;">
+        <i class="fa fa-plus"></i> Tambah Data
+    </a>
+</div>
 
 {{-- Tabel Data --}}
 <div class="table-responsive shadow-sm rounded">
     <table class="table table-bordered align-middle table-hover">
         <thead class="table-header-green">
             <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Jenis Akta</th>
-                <th>Nomor Akta</th>
-                <th>Tanggal Permohonan</th>
-                <th>Alasan</th>
-                <th>Gambar</th>
+                <th style="text-align: center;">No</th>
+                <th style="text-align: center;">Nama</th>
+                <th style="text-align: center;">Jenis Akta</th>
+                <th style="text-align: center;">Nomor Akta</th>
+                <th style="text-align: center;">Tanggal Permohonan</th>
+                <th style="text-align: center;">Alasan</th>
+                <th style="text-align: center;">Gambar</th>
                 <th class="text-center" style="width: 100px;">Aksi</th>
             </tr>
         </thead>
         <tbody>
             @forelse($data as $row)
-            <tr @if($loop->first) class="table-green-row" @endif>
-                <td style="background:#fff;color:#222;font-weight:bold;">{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
+            <tr @if($loop->first && $type == 'success' && session('success')) class="table-green-row" @endif>
+                <td style="background:#fff;color:#222;font-weight:bold;text-align:center;">{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
                 <td>{{ $row->nama }}</td>
-                <td>
+                <td style="text-align: center;">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
                         @elseif($row->jenis_akta == 'kematian') bg-danger
@@ -125,10 +170,10 @@
                         {{ ucfirst($row->jenis_akta) }}
                     </span>
                 </td>
-                <td>{{ $row->no_akta }}</td>
-                <td>{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
-                <td>{{ $row->alasan ?? '-' }}</td>
-                <td>
+                <td style="text-align: center;">{{ $row->no_akta }}</td>
+                <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
+                <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
+                <td style="text-align: center;">
                     @if($row->gambar)
                         <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
                             <img src="{{ asset('storage/'.$row->gambar) }}" 
@@ -185,7 +230,7 @@
 
 {{-- Modal Edit --}}
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <form id="editForm" method="POST" enctype="multipart/form-data">
         @csrf
@@ -305,6 +350,33 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('deleteForm'+deleteId).submit();
         }
     });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function removeHighlight() {
+        var firstRow = document.querySelector('.table-green-row');
+        if(firstRow) firstRow.classList.remove('table-green-row');
+    }
+
+    var alert = document.getElementById('successAlert');
+    if(alert) {
+        // Auto-hide alert setelah 3.5 detik
+        setTimeout(function(){
+            // Trigger close (Bootstrap akan animasi dan trigger event hidden.bs.alert)
+            var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+            bsAlert.close();
+        }, 3500);
+
+        // Saat alert benar-benar hilang (baik auto maupun manual close)
+        alert.addEventListener('hidden.bs.alert', function () {
+            removeHighlight();
+            // Scroll ke atas tabel jika perlu
+            var table = document.querySelector('.table-responsive');
+            if(table) table.scrollIntoView({behavior: "smooth", block: "start"});
+        });
+    }
 });
 </script>
 
