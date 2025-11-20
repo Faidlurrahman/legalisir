@@ -10,8 +10,8 @@
     /* Ganti semua hijau ke hijau layout */
     .table-header-green th,
     .table-header-green th:first-child {
-        background: #0b5b57 !important;
-        color: #fff !important;
+        background: #f5f5f5 !important; /* Abu terang */
+        color: #0b5b57 !important;      /* Hijau */
     }
     .btn-success,
     .btn-success:focus,

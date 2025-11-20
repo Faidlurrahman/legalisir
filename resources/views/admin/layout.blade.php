@@ -270,21 +270,22 @@
 
         /* === FOOTER === */
         .footer-app {
-            background: #0b5b57;
-            color: #fff;
+            background: #f5f5f5;      /* Abu terang */
+            color: #0b5b57;
             padding: 40px 0 30px;
             text-align: center;
+            border-top: 1.5px solid #e0e0e0;
         }
 
         .footer-brand {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #fff; /* Ubah ke putih */
+            color: #0b5b57;           /* Hijau */
             margin-bottom: 5px;
         }
 
         .footer-app small {
-            color: #d5eae9;
+            color: #4b7977;
         }
 
         /* === RESPONSIVE === */

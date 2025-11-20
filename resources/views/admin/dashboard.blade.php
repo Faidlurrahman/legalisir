@@ -199,8 +199,8 @@
     .table thead,
     .table thead tr,
     .table thead th {
-        background: #0b5b57 !important;
-        color: #fff !important;
+        background: #f5f5f5 !important; /* Abu terang */
+        color: #0b5b57 !important;      /* Hijau */
     }
     .alasan-ellipsis {
         display: -webkit-box;

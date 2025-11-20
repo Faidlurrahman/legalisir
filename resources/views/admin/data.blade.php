@@ -93,13 +93,10 @@
     color: #fff !important;
     font-weight: bold;
 }
-.table-header-green th {
-    background: #0b5b57 !important;
-    color: #fff !important;
-}
+.table-header-green th,
 .table-header-green th:first-child {
-    background: #0b5b57 !important;
-    color: #fff !important;
+    background: #f5f5f5 !important; /* Abu terang */
+    color: #0b5b57 !important;      /* Hijau */
 }
 .table-green-row {
     background: #d5eae9 !important; /* hijau muda layout */
