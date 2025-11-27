@@ -19,13 +19,14 @@
         /* === SIDEBAR === */
         .sidebar {
             width: 240px;
-            background: linear-gradient(180deg, #0b5b57 60%, #0e736e 100%);
-            color: #fff;
+            background: #fff;
+            color: #0b5b57;
             min-height: 100vh;
             position: fixed;
             left: 0; top: 0; bottom: 0;
-            border-right: 3px solid #f7a61c;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+            box-shadow: 4px 0 24px rgba(0,0,0,0.13);
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -44,24 +45,25 @@
             transition: all .25s;
         }
 
-        /* 1. Inisial admin, latar oranye, tanpa icon file */
+        /* Sidebar profile kotak sedikit (rounded-3) */
         .sidebar-profile-circle {
             width: 60px; height: 60px;
-            border-radius: 50%;
-            background: #f7a61c;
-            color: #fff;
+            border-radius: 14px; /* Lebih kotak, bukan bulet penuh */
+            background: #0b5b57 !important;
+            color: #fff !important;
             font-weight: 700;
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 8px auto;
             font-size: 1.7rem;
             letter-spacing: 1px;
-            text-decoration: none; /* 2. Hilangkan underline */
-            transition: width .25s, height .25s, font-size .25s;
+            text-decoration: none;
+            transition: width .25s, height .25s, font-size .25s, border-radius .25s;
             user-select: none;
         }
         .sidebar.collapsed .sidebar-profile-circle {
             width: 38px; height: 38px;
             font-size: 1.1rem;
+            border-radius: 10px;
         }
 
         .sidebar-profile-name {
@@ -70,10 +72,11 @@
             transition: opacity .2s;
         }
 
+        /* Email hijau */
         .sidebar-profile-email {
             font-size: 0.85rem;
-            color: #e0f0ef;
-            transition: opacity .2s;
+            color: #0b5b57 !important;
+            transition: opacity .2s, color .2s;
         }
 
         .sidebar.collapsed .sidebar-profile-name,
@@ -82,8 +85,9 @@
             pointer-events: none;
         }
 
+        /* Sidebar nav-link */
         .sidebar .nav-link {
-            color: #ffffff;
+            color: #0b5b57;
             font-weight: 500;
             padding: 10px 18px;
             border-radius: 8px;
@@ -95,15 +99,24 @@
             position: relative;
         }
 
+        /* HOVER: hijau solid, icon & teks putih */
         .sidebar .nav-link:hover, 
         .sidebar .nav-link.active {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
+            background: #0b5b57 !important;
+            color: #fff !important;
         }
 
+        /* Icon sidebar default hijau */
         .sidebar .nav-link i {
             font-size: 1.25rem;
             min-width: 28px;
+            color: #0b5b57 !important;
+            transition: color .2s;
+        }
+
+        .sidebar .nav-link:hover i,
+        .sidebar .nav-link.active i {
+            color: #fff !important;
         }
 
         .sidebar.collapsed .nav-link {
@@ -114,14 +127,14 @@
             display: none;
         }
 
-        /* 7. Tooltip hover untuk sidebar collapsed */
+        /* Tooltip hover untuk sidebar collapsed */
         .sidebar.collapsed .nav-link::after {
             content: attr(data-label);
             position: absolute;
             left: calc(100% + 4px);
             top: 50%;
             transform: translateY(-50%) scale(0.95);
-            background: #0b5b57; /* Warna hijau utama, tanpa gradasi */
+            background: #0b5b57;
             color: #fff;
             padding: 6px 18px;
             border-radius: 10px;
@@ -136,13 +149,12 @@
                 transform .28s cubic-bezier(.4,2,.6,1),
                 box-shadow .28s cubic-bezier(.4,2,.6,1);
             z-index: 9999;
-            border-left: 4px solid #f7a61c; /* Oranye */
         }
         .sidebar.collapsed .nav-link:hover::after {
             opacity: 1;
             transform: translateY(-50%) scale(1.07) translateX(6px);
-            box-shadow: 0 4px 18px rgba(247,166,28,0.18); /* Oranye transparan */
-            background: #f7a61c; /* Oranye penuh */
+            box-shadow: 0 4px 18px rgba(26,168,151,0.18);
+            background: #0b5b57;
             color: #fff;
         }
 
@@ -151,7 +163,6 @@
             padding: 1rem;
         }
 
-        /* 5. Logout button: collapsed = icon merah saja */
         .btn-logout {
             width: 100%;
             background: #dc3545 !important;
@@ -185,16 +196,18 @@
 
         /* === HEADER === */
         .header-app {
-            background: #0b5b57;
-            color: #fff;
+            background: #fff;
+            color: #0b5b57;
             padding: 14px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
         }
 
         .header-left {
@@ -203,21 +216,21 @@
             gap: 15px;
         }
 
-        /* 3. Icon sidebar toggle & judul oranye */
+        /* Header sidebar toggle */
         .header-sidebar-toggle {
             cursor: pointer;
             font-size: 1.3rem;
-            background: rgba(255,255,255,0.15);
+            background: #e6f7f5;
             padding: 6px 10px;
             border-radius: 8px;
             transition: background .2s, color .2s, transform .5s cubic-bezier(.4,2,.6,1);
-            color: #f7a61c;
+            color: #0b5b57;
             display: flex;
             align-items: center;
         }
         .header-sidebar-toggle:hover {
-            background: rgba(255,255,255,0.3);
-            color: #f7a61c;
+            background: #0b5b57 !important;
+            color: #fff !important;
         }
         .header-sidebar-toggle.rotating {
             animation: rotateIcon .6s cubic-bezier(.4,2,.6,1);
@@ -227,28 +240,32 @@
             100% { transform: rotate(360deg);}
         }
         .header-sidebar-toggle i {
-            animation: rotateIcon 2.5s linear infinite;
+            color: #0b5b57 !important;
+        }
+        .header-sidebar-toggle:hover i {
+            color: #fff !important;
         }
 
         .header-title {
             font-size: 1.1rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            color: #fff; /* Ubah ke putih */
+            color: #0b5b57;
             transition: color .2s;
         }
 
+        /* Header profile kotak */
         .header-profile-circle {
             width: 38px; height: 38px;
-            border-radius: 50%;
-            background: #f7a61c;
+            border-radius: 10px;
+            background: #0b5b57 !important;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: #fff;
+            color: #fff !important;
             cursor: pointer;
-            text-decoration: none; /* 2. Hilangkan underline */
+            text-decoration: none;
             font-size: 1.1rem;
             letter-spacing: 1px;
             user-select: none;
@@ -276,18 +293,18 @@
 
         /* === FOOTER === */
         .footer-app {
-            background: #f5f5f5;      /* Abu terang */
+            background: #f5f5f5;
             color: #0b5b57;
             padding: 40px 0 30px;
             text-align: center;
             border-top: 1.5px solid #e0e0e0;
-            margin-top: auto; /* Ini akan mendorong footer ke bawah */
+            margin-top: auto;
         }
 
         .footer-brand {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #0b5b57;           /* Hijau */
+            color: #0b5b57;
             margin-bottom: 5px;
         }
 
