@@ -416,7 +416,7 @@ function toggleSidebar() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
+    const sidebar = docume nt.getElementById('sidebar');
     if(localStorage.getItem('sidebar-collapsed') === '1') sidebar.classList.add('collapsed');
     document.getElementById('btnLogoutYes')?.addEventListener('click', () => document.getElementById('logout-form').submit());
 });
