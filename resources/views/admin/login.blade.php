@@ -17,262 +17,195 @@
       font-family: 'Poppins', sans-serif;
     }
 
-    /* Background tetap HIJAU lembut */
     body {
-      background: linear-gradient(135deg, #0ea295, #0d7c72, #11988b);
+      background: linear-gradient(180deg, #0b4d3b, #083f31, #052a21);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      color: #fff;
     }
 
-    /* Lampu background */
-    .light {
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.24);
-      filter: blur(120px);
-      animation: float 6s ease-in-out infinite alternate;
-    }
-
-    .light:nth-child(1) { top: -80px; left: -60px; }
-    .light:nth-child(2) { bottom: -80px; right: -70px; animation-delay: 2s; }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(32px); }
-    }
-
-    /* CARD LOGIN ABU TRANSPARAN (GLASS GRAY) */
-    .container {
-      width: 950px;
-      height: 560px;
-      display: flex;
-      border-radius: 20px;
-      overflow: hidden;
-
-      background: rgba(180, 180, 180, 0.18);  /* ABU transparan */
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-
-      box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.18),
-        inset 0 0 25px rgba(255, 255, 255, 0.1);
-
-      animation: fadeIn 1s ease-out;
+    .login-container {
+      width: 420px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 40px 38px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+      text-align: center;
+      animation: fadeIn 1s ease;
+      backdrop-filter: blur(12px);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
 
-    /* LEFT SIDE */
-    .login-section {
-      flex: 1;
-      padding: 60px 70px;
-      color: #ffffff;
-    }
-
-    .top-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
-
-    .top-logo i {
-      font-size: 2.1rem;
-      color: #ffffff;
-      filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.22));
-    }
-
-    .top-logo span {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #f6fffe;
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h2 {
-      margin-top: 15px;
-      margin-bottom: 10px;
-      font-size: 2rem;
+      margin-bottom: 6px;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: #fefefe;
     }
 
-    p {
-      margin-bottom: 35px;
-      font-size: 0.95rem;
-      color: #e4fffb;
+    .subtitle {
+      font-size: 0.9rem;
+      color: #c7d4de;
+      margin-bottom: 30px;
     }
 
-    /* Form Input */
     .input-box {
+      margin-bottom: 18px;
+      text-align: left;
       position: relative;
-      margin-bottom: 20px;
     }
 
     .input-box input {
       width: 100%;
-      height: 48px;
-      border-radius: 12px;
+      height: 46px;
+      border-radius: 8px;
       border: none;
+      background: rgba(255, 255, 255, 0.12);
+      color: #e9eef3;
+      padding: 0 45px 0 16px;
+      font-size: 0.9rem;
       outline: none;
-      padding: 0 48px 0 18px;
-      font-size: 0.95rem;
-
-      background: rgba(255, 255, 255, 0.78);
-      color: #054843;
-
-      transition: 0.25s;
-      box-shadow:
-        inset 3px 3px 6px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 6px rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.3px;
+      transition: .25s;
     }
 
     .input-box input:focus {
-      box-shadow: 
-        0 0 0 3px rgba(0, 255, 213, 0.35),
-        inset 0 0 12px rgba(0, 255, 213, 0.45);
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.18);
+      border: 0.5px solid rgba(255, 255, 255, 0.28);
     }
 
-    .input-box i {
+    .input-label {
+      font-size: 0.85rem;
+      color: #cfd9e3;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    /* Eye Icon */
+    .toggle-password {
       position: absolute;
       right: 16px;
-      top: 14px;
-      color: #0e8278;
-      font-size: 1.05rem;
+      top: 38px;
+      font-size: 18px;
+      color: #d5f7df;
       cursor: pointer;
+      transition: .2s;
     }
 
-    /* Login Button */
+    .toggle-password:hover {
+      color: #8affbc;
+    }
+
+    /* tombol */
     .login-btn {
       width: 100%;
-      height: 50px;
-      border-radius: 12px;
+      height: 48px;
+      background: #1abe63;
+      border-radius: 8px;
       border: none;
-      font-size: 1.05rem;
+      margin-top: 25px;
+      font-size: 1rem;
       font-weight: 600;
-      color: white;
-
-      background: linear-gradient(135deg, #13c7b5, #0ea58f);
+      color: #034b24;
       cursor: pointer;
-
-      box-shadow:
-        0 4px 15px rgba(13, 150, 130, 0.35),
-        inset 0 0 8px rgba(255, 255, 255, 0.25);
-
+      box-shadow: 0 4px 10px rgba(41, 255, 107, 0.35);
       transition: .3s;
     }
 
     .login-btn:hover {
+      box-shadow: 0 7px 18px rgba(41, 255, 107, 0.45);
       transform: translateY(-2px);
-      box-shadow:
-        0 7px 18px rgba(13, 150, 130, 0.4),
-        inset 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
-    .forgot {
-      text-align: right;
-      margin-top: 12px;
+    .waves {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      opacity: 0.25;
     }
 
-    .forgot a {
-      color: #cafff3;
-      font-size: 0.9rem;
-      text-decoration: none;
-    }
-
-    /* RIGHT SIDE illustration */
-    .illustration {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .illustration img {
-      width: 360px;
-      animation: floatImg 4s infinite ease-in-out alternate;
-    }
-
-    @keyframes floatImg {
-      from { transform: translateY(0); }
-      to { transform: translateY(-18px); }
-    }
-
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-        width: 92%;
-        height: auto;
-      }
-
-      .illustration img { width: 240px; margin-top: 20px; }
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-image: radial-gradient(#ffffff33 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      opacity: 0.22;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="light"></div>
-  <div class="light"></div>
+  <div class="stars"></div>
 
-  <div class="container">
+  <svg class="waves" viewBox="0 0 1440 320">
+    <path fill="#ffffff"
+      d="M0,256L80,240C160,224,320,192,480,197.3C640,203,800,245,960,256C1120,267,1280,245,1360,234.7L1440,224L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+    </path>
+  </svg>
 
-    <div class="login-section">
+  <div class="login-container">
 
-      <div class="top-logo">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span>Legalisir Akta | Disdukcapil Cirebon</span>
+    <h2>Log In</h2>
+    <p class="subtitle">Masuk untuk mengelola layanan legalisir akta.</p>
+
+    <form method="POST" action="{{ route('admin.login.submit') }}">
+      @csrf
+
+      <div class="input-box">
+        <label class="input-label">Email</label>
+        <input type="email" name="email" placeholder="Masukkan email..." required>
       </div>
 
-      <h2>Selamat Datang</h2>
-      <p>Masuk untuk mengakses layanan legalisir akta kependudukan.</p>
+      <div class="input-box">
+        <label class="input-label">Password</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan password..." required>
+        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+      </div>
 
-      <form method="POST" action="{{ route('admin.login.submit') }}">
-        @csrf
+      <button class="login-btn">Log In</button>
 
-        <div class="input-box">
-          <input type="email" name="email" placeholder="Email" required>
-          <i class="fa-regular fa-envelope"></i>
-        </div>
-
-        <div class="input-box">
-          <input type="password" name="password" id="password" placeholder="Password" required>
-          <i class="fa-solid fa-eye" id="togglePassword"></i>
-        </div>
-
-        <button class="login-btn">Login</button>
-
-        <div class="forgot">
-          <a href="#">Lupa password?</a>
-        </div>
-
-      </form>
-    </div>
-
-    <div class="illustration">
-      <img src="{{ asset('gambar/smart_12864048.png') }}" alt="Ilustrasi Login">
-    </div>
+    </form>
 
   </div>
 
   <script>
-    const pass = document.getElementById("password");
-    const toggle = document.getElementById("togglePassword");
+    function togglePassword() {
+      const input = document.getElementById("password");
+      const icon = document.querySelector(".toggle-password");
 
-    toggle.onclick = () => {
-      pass.type = pass.type === "password" ? "text" : "password";
-      toggle.classList.toggle("fa-eye");
-      toggle.classList.toggle("fa-eye-slash");
-    };
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
   </script>
 
 </body>
+
 </html>

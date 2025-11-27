@@ -165,24 +165,31 @@
 
         .btn-logout {
             width: 100%;
-            background: #dc3545 !important;
-            color: #fff;
+            background: transparent !important;   /* Hilangkan warna latar */
+            color: #dc3545 !important;            /* Warna merah untuk icon & teks */
             border: none;
             border-radius: 8px;
             padding: 10px;
             font-weight: 600;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.2s, color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-        .btn-logout:hover {
-            background: #b52a37 !important;
+        .btn-logout i {
+            color: #dc3545 !important;            /* Icon merah */
+        }
+        .btn-logout:hover, .btn-logout:focus {
+            background: rgba(220,53,69,0.08) !important; /* Sedikit highlight saat hover */
+            color: #b52a37 !important;
+        }
+        .btn-logout:hover i, .btn-logout:focus i {
+            color: #b52a37 !important;
         }
         .sidebar.collapsed .btn-logout {
-            background: #dc3545 !important;
-            color: #fff;
+            background: transparent !important;
+            color: #dc3545 !important;
             width: 38px;
             height: 38px;
             padding: 0;
@@ -193,15 +200,15 @@
         .sidebar.collapsed .btn-logout span {
             display: none;
         }
-
         /* === HEADER === */
         .header-app {
             background: #fff;
             color: #0b5b57;
-            padding: 14px 24px;
+            padding: 14px 40px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Geser konten header ke kiri */
             align-items: center;
+            gap: 0;
             box-shadow: 0 3px 12px rgba(0,0,0,0.10);
             position: sticky;
             top: 0;
@@ -213,7 +220,8 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            margin-right: auto;
+            gap: 10px;
         }
 
         /* Header sidebar toggle */
@@ -265,10 +273,82 @@
             font-weight: 600;
             color: #fff !important;
             cursor: pointer;
-            text-decoration: none;
+            text-decoration: none !important;
             font-size: 1.1rem;
             letter-spacing: 1px;
             user-select: none;
+        }
+
+        .header-profile-circle::after {
+            display: none !important;
+        }
+
+        .dropdown-menu {
+            min-width: 160px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+        }
+
+        .dropdown-item {
+            font-weight: 500;
+            color: #0b5b57;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            background: #e6f7f5;
+            color: #0b5b57;
+        }
+
+        .dropdown-item.text-danger, .dropdown-item.text-danger i {
+            color: #dc3545 !important;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background: rgba(220,53,69,0.08);
+            color: #b52a37 !important;
+        }
+
+        .dropdown-item i {
+            min-width: 20px;
+        }
+
+        /* Dropdown hanya muncul saat hover di profile atau di dropdown menu */
+        .header-app .dropdown:hover .dropdown-menu,
+        .header-app .dropdown:focus-within .dropdown-menu,
+        .header-app .dropdown .dropdown-menu:hover {
+            display: block;
+            margin-top: -10px;    /* Naikkan agar area hover overlap dengan profile */
+            pointer-events: auto;
+        }
+
+        /* Geser dropdown lebih ke kiri jika perlu */
+        .dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
+            transform: translateX(-60px); /* Atur sesuai kebutuhan */
+        }
+
+        /* Hanya hover, tanpa klik: dropdown muncul saat kursor di profile atau di dropdown */
+        .header-app .dropdown .dropdown-toggle {
+            pointer-events: auto;
+        }
+
+        /* Tampilkan dropdown saat hover di logo profile atau dropdown menu */
+        .header-app .dropdown:hover .dropdown-menu,
+        .header-app .dropdown:focus-within .dropdown-menu,
+        .header-app .dropdown .dropdown-menu:hover {
+            display: block;
+            margin-top: 4px;      /* Dekatkan dropdown ke profile */
+            pointer-events: auto;
+        }
+
+        /* Geser dropdown lebih ke kiri */
+        .dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
+            transform: translateX(-60px); /* Atur sesuai kebutuhan, -60px biasanya pas */
         }
 
         /* === CONTENT === */
@@ -321,6 +401,9 @@
             }
             .content-area {
                 margin-left: 0;
+            }
+            .header-app {
+                padding: 10px 16px; /* Responsive: tetap ada jarak */
             }
         }
     </style>
@@ -384,9 +467,27 @@
                 </div>
                 <div class="header-title">DISDUKCAPIL KOTA CIREBON</div>
             </div>
-            <a href="{{ route('admin.profile') }}" class="header-profile-circle">
-                {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
-            </a>
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="header-profile-circle dropdown-toggle" id="profileDropdown" aria-expanded="false" style="text-decoration:none;">
+                    {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                            <i class="fa fa-user me-2"></i> Profile
+                        </a>
+                    </li>
+                    <li>
+                        <form id="logout-form-header" action="{{ route('admin.logout') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confirmLogoutModal">
+                                <i class="fa fa-sign-out-alt me-2"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </header>
 
         <main class="flex-fill">
