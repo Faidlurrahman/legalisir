@@ -1,4 +1,3 @@
-{{-- filepath: resources/views/admin/layout.blade.php --}}
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -12,6 +11,9 @@
             background: #fdfdfb;
             font-family: 'Poppins', Arial, sans-serif;
             color: #1c1c1c;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* === SIDEBAR === */
@@ -258,6 +260,9 @@
             min-height: 100vh;
             background: #fdfdfb;
             transition: margin-left .25s ease;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .sidebar.collapsed ~ .content-area {
@@ -266,6 +271,7 @@
 
         main.flex-fill {
             padding: 30px;
+            flex: 1;
         }
 
         /* === FOOTER === */
@@ -275,6 +281,7 @@
             padding: 40px 0 30px;
             text-align: center;
             border-top: 1.5px solid #e0e0e0;
+            margin-top: auto; /* Ini akan mendorong footer ke bawah */
         }
 
         .footer-brand {

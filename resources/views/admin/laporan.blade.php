@@ -1,61 +1,148 @@
-@extends('admin.layout')
+@extends('admin.layout')  
+@section('content')  
 
-@section('content')
 <style>
-    body,
-    main.flex-fill {
-        background: #fff !important;
+    :root {
+        --green: #0b5b57;
+        --light-gray: #f8f9fa;
+        --border-soft: #e5e7eb;
+        --text-dark: #222;
     }
 
-    /* Ganti semua hijau ke hijau layout */
-    .table-header-green th,
-    .table-header-green th:first-child {
-        background: #f5f5f5 !important; /* Abu terang */
-        color: #0b5b57 !important;      /* Hijau */
+    body, main.flex-fill {
+        background: #fff !important;
+        font-family: "Inter", sans-serif;
     }
-    .btn-success,
-    .btn-success:focus,
-    .btn-success:active,
-    .btn-success:hover,
-    .btn[style*="background:rgb(0,119,62)"] {
-        background: #0b5b57 !important;
-        border-color: #0b5b57 !important;
+
+    /* ================= PAGE TITLES ================= */
+    .page-title {
+        color: var(--green);
+        font-weight: 700;
+        font-size: 1.7rem;
+        letter-spacing: .3px;
+    }
+
+    /* ================= BUTTON THEME ================= */
+    .btn-green {
+        background: var(--green) !important;
+        border-color: var(--green) !important;
         color: #fff !important;
+        font-weight: 600;
     }
-    .table-green-row,
-    tr[style*="background:rgb(0,119,62)"] {
-        background: #0b5b57 !important;
-        color: #fff !important;
+
+    .btn-green:hover {
+        opacity: .9;
     }
-    h2.fw-bold,
-    h2.fw-bold i,
-    h2.mb-4.fw-bold,
-    h2.mb-4.fw-bold i {
-        color: #0b5b57 !important;
+
+    /* ================= TABLE ================= */
+    .table-header th {
+        background: var(--light-gray) !important;
+        color: var(--green) !important;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .table-bordered > :not(caption) > * > * {
+        border-color: var(--border-soft) !important;
+    }
+
+    /* FIRST DATA ROW */
+    .table tbody tr:first-child {
+        background: var(--green) !important;
+        color: #fff;
     }
 
     .alasan-ellipsis {
         display: -webkit-box;
         -webkit-line-clamp: 3;
-        /* maksimal 3 baris */
-        line-clamp: 3;
-        /* standard property for compatibility */
         -webkit-box-orient: vertical;
         overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-word;
-        max-width: 220px;
-        /* atur sesuai kebutuhan */
-        font-size: 0.97rem;
+        max-width: 240px;
+        font-size: .95rem;
         line-height: 1.3;
-        min-width: 80px;
+    }
+
+    /* ================= PRINT ================= */
+    @media print { 
+        body {
+            background: #fff !important;
+        }
+
+        /* Hide all controls */
+        form,
+        .btn,
+        .pagination,
+        .page-title,
+        header,
+        nav,
+        footer,
+        .sidebar {
+            display: none !important;
+        }
+
+        .print-header {
+            display: block !important;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .print-header h2 {
+            font-size: 20px;
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .print-header div {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .table {
+            font-size: 12px !important;
+        }
+
+        .table-responsive {
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        /* ================= Badge Colors on Print ================= */
+        .badge {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
+            font-weight: 600 !important;
+        }
+
+        .bg-info { background-color: #0dcaf0 !important; color: #fff !important; }
+        .bg-danger { background-color: #dc3545 !important; color: #fff !important; }
+        .bg-primary { background-color: #0d6efd !important; color: #fff !important; }
+        .bg-warning { background-color: #ffc107 !important; color: #000 !important; }
+        .bg-secondary { background-color: #6c757d !important; color: #fff !important; }
+
+        /* Make table borders print properly */
+        table, th, td {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
+
+    .print-header {
+        display: none;
     }
 </style>
-<h2 class="mb-4 fw-bold" style="color:#0b5b57">
-    <i class="fa fa-clipboard-list me-2" style="color:#0b5b57"></i>Laporan Data Legalisir
+
+{{-- ================= TITLE ================= --}}
+<h2 class="page-title mb-4">
+    <i class="fa fa-clipboard-list me-2"></i>
+    Laporan Data Legalisir
 </h2>
 
-<form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light" id="filterForm">
+{{-- ================= FILTER FORM ================= --}}
+<form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light">
     <div class="col-md-3">
         <select name="jenis_akta" class="form-select">
             <option value="">Jenis Akta</option>
@@ -65,9 +152,12 @@
             <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
         </select>
     </div>
+
     <div class="col-md-2">
-        <input type="date" name="tanggal" id="tanggalInput" class="form-control" value="{{ request('tanggal') }}">
+        <input type="date" name="tanggal" id="tanggalInput"
+               class="form-control" value="{{ request('tanggal') }}">
     </div>
+
     <div class="col-md-3">
         <select name="rentang" id="rentangInput" class="form-select">
             <option value="">Rentang Waktu</option>
@@ -76,115 +166,73 @@
             <option value="month" {{ request('rentang')=='month'?'selected':'' }}>Bulan Ini</option>
         </select>
     </div>
+
     <div class="col-md-2">
-        <button class="btn w-100" type="submit" style="background:#0b5b57;border-color:#0b5b57;color:#fff;">
+        <button class="btn btn-green w-100" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
     </div>
-    <div class="col-md-2 text-end">
-        <button type="button" class="btn btn-success me-2" onclick="window.print()" style="background:#0b5b57;border-color:#0b5b57;color:#fff;">
-            <i class="fa fa-print"></i> Print
+
+    <div class="col-md-2">
+        <button type="button" class="btn btn-green w-100" onclick="window.print()">
+            <i class="fa fa-print"></i> Cetak Laporan
         </button>
     </div>
 </form>
+
+{{-- DISABLE AUTOMATIC INPUT --}}
 <script>
     const tanggalInput = document.getElementById('tanggalInput');
     const rentangInput = document.getElementById('rentangInput');
-    tanggalInput.addEventListener('change', function() {
-        if (this.value) {
-            rentangInput.value = '';
-            rentangInput.disabled = true;
-        } else {
-            rentangInput.disabled = false;
-        }
+
+    tanggalInput.addEventListener('change', () => {
+        rentangInput.disabled = tanggalInput.value !== "";
+        if (tanggalInput.value) rentangInput.value = "";
     });
-    rentangInput.addEventListener('change', function() {
-        if (this.value) {
-            tanggalInput.value = '';
-            tanggalInput.disabled = true;
-        } else {
-            tanggalInput.disabled = false;
-        }
+
+    rentangInput.addEventListener('change', () => {
+        tanggalInput.disabled = rentangInput.value !== "";
+        if (rentangInput.value) tanggalInput.value = "";
     });
-    // Inisialisasi saat reload
-    window.addEventListener('DOMContentLoaded', function() {
-        if (tanggalInput.value) {
-            rentangInput.disabled = true;
-        }
-        if (rentangInput.value) {
-            tanggalInput.disabled = true;
-        }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (tanggalInput.value) rentangInput.disabled = true;
+        if (rentangInput.value) tanggalInput.disabled = true;
     });
 </script>
 
-<style>
-    @media print {
-        body {
-            background: #fff !important;
-            color: #222 !important;
-        }
-
-        .sidebar,
-        .btn,
-        .navbar,
-        .logout,
-        .filter-form,
-        .pagination,
-        .alert,
-        .print-header,
-        h2,
-        form,
-        .d-flex,
-        .mb-4,
-        .fw-bold,
-        .text-primary {
-            display: none !important;
-        }
-
-        .table-card,
-        .table-responsive,
-        .shadow-sm,
-        .rounded {
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            background: #fff !important;
-        }
-
-        .table {
-            font-size: 12px;
-        }
-    }
-
-    .print-header {
-        display: none;
-    }
-</style>
-
+{{-- ================= PRINT HEADER ================= --}}
 <div class="print-header">
-    <h3>LAPORAN DATA LEGALISIR</h3>
+    <h2><b>LAPORAN DATA LEGALISIR</b></h2>
     <div>DISDUKCAPIL KOTA CIREBON</div>
     <div>Tanggal Cetak: {{ date('d M Y') }}</div>
 </div>
 
+{{-- ================= TABLE ================= --}}
 <div class="table-responsive shadow-sm rounded">
-    <table class="table table-bordered align-middle table-hover">
-        <thead class="table-header-green">
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-header">
             <tr>
-                <th style="text-align: center;">No</th>
-                <th style="text-align: center;">Nama</th>
-                <th style="text-align: center;">Jenis Akta</th>
-                <th style="text-align: center;">Nomor Akta</th>
-                <th style="text-align: center;">Tanggal Permohonan</th>
-                <th style="text-align: center;">Alasan</th>
-                <th style="text-align: center;">Gambar</th>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Jenis Akta</th>
+                <th>Nomor Akta</th>
+                <th>Tanggal Permohonan</th>
+                <th>Alasan</th>
+                <th>Gambar</th>
             </tr>
         </thead>
+
         <tbody>
-            @forelse($data as $row)
-            <tr @if($loop->first) style="background:#0b5b57;color:#fff;" @endif>
-                <td style="background:#fff;color:#222;font-weight:bold;text-align:center;">{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
+        @forelse($data as $row)
+            <tr>
+                <td class="text-center fw-bold">
+                    {{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}
+                </td>
+
                 <td>{{ $row->nama }}</td>
-                <td style="text-align: center;">
+
+                <td class="text-center">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
                         @elseif($row->jenis_akta == 'kematian') bg-danger
@@ -196,37 +244,40 @@
                         {{ ucfirst($row->jenis_akta) }}
                     </span>
                 </td>
-                <td style="text-align: center;">{{ $row->no_akta }}</td>
-                <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
-                <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
-                <td style="text-align: center;">
+
+                <td class="text-center">{{ $row->no_akta }}</td>
+
+                <td class="text-center">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
+
+                <td><span class="alasan-ellipsis">{{ $row->alasan }}</span></td>
+
+                <td class="text-center">
                     @if($row->gambar)
-                    <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
-                        <img src="{{ asset('storage/'.$row->gambar) }}"
-                            alt="Gambar"
-                            style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">
-                    </a>
+                        <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
+                            <img src="{{ asset('storage/'.$row->gambar) }}"
+                                 style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+                        </a>
                     @else
-                    <span class="text-muted">Tidak ada</span>
+                        <span class="text-muted">Tidak ada</span>
                     @endif
                 </td>
             </tr>
-            @empty
+        @empty
             <tr>
-                <td colspan="7" class="text-center text-muted py-4">
-                    Tidak ada data ditemukan.
-                </td>
+                <td colspan="7" class="text-center text-muted py-4">Tidak ada data ditemukan.</td>
             </tr>
-            @endforelse
+        @endforelse
         </tbody>
     </table>
 </div>
 
+{{-- ================= PAGINATION ================= --}}
 @if ($data->hasPages())
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+<div class="d-flex flex-column flex-md-row justify-content-between mt-3">
     <div class="text-muted small mb-2 mb-md-0">
         Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
     </div>
+
     <div>
         {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
     </div>

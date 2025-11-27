@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Disdukcapil</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -15,8 +17,9 @@
       font-family: 'Poppins', sans-serif;
     }
 
+    /* Background tetap HIJAU lembut */
     body {
-      background-color: #f6fcfb;
+      background: linear-gradient(135deg, #0ea295, #0d7c72, #11988b);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -24,272 +27,252 @@
       overflow: hidden;
     }
 
-    .bg-circle1,
-    .bg-circle2 {
+    /* Lampu background */
+    .light {
       position: absolute;
+      width: 260px;
+      height: 260px;
       border-radius: 50%;
-      z-index: 0;
+      background: rgba(255, 255, 255, 0.24);
+      filter: blur(120px);
+      animation: float 6s ease-in-out infinite alternate;
     }
 
-    .bg-circle1 {
-      width: 600px;
-      height: 600px;
-      background: rgba(19, 128, 125, 0.15);
-      bottom: -200px;
-      right: -200px;
+    .light:nth-child(1) { top: -80px; left: -60px; }
+    .light:nth-child(2) { bottom: -80px; right: -70px; animation-delay: 2s; }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(32px); }
     }
 
-    .bg-circle2 {
-      width: 400px;
-      height: 400px;
-      background: rgba(19, 128, 125, 0.1);
-      top: -150px;
-      left: -150px;
-    }
-
+    /* CARD LOGIN ABU TRANSPARAN (GLASS GRAY) */
     .container {
       width: 950px;
-      height: 520px;
-      background: #ffffff;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      height: 560px;
       display: flex;
+      border-radius: 20px;
       overflow: hidden;
-      position: relative;
-      z-index: 1;
+
+      background: rgba(180, 180, 180, 0.18);  /* ABU transparan */
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.18),
+        inset 0 0 25px rgba(255, 255, 255, 0.1);
+
+      animation: fadeIn 1s ease-out;
     }
 
-    /* LOGIN SECTION */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* LEFT SIDE */
     .login-section {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0 70px;
-      padding-top: 80px;
-      position: relative;
+      padding: 60px 70px;
+      color: #ffffff;
     }
 
-    /* LOGO POJOK KIRI ATAS – DIPERKECIL & DIKECILKAN JARAKNYA */
     .top-logo {
-      position: absolute;
-      top: 22px;
-      left: 30px;
-      /* LEBIH KE KIRI */
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 25px;
     }
 
-    .top-logo img {
-      width: 32px;
-      height: 32px;
+    .top-logo i {
+      font-size: 2.1rem;
+      color: #ffffff;
+      filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.22));
     }
 
     .top-logo span {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #0b5b57;
-      text-transform: capitalize;
-    }
-
-    /* Atribusi Flaticon */
-    .credit {
-      position: absolute;
-      top: 60px;
-      left: 30px;
-      font-size: 0.7rem;
-      color: #7fa39f;
-    }
-
-    .credit a {
-      color: #0b5b57;
-      text-decoration: none;
-    }
-
-    .credit a:hover {
-      text-decoration: underline;
-    }
-
-    .login-section h2 {
-      color: #0b5b57;
-      font-size: 1.6rem;
+      font-size: 1.25rem;
       font-weight: 600;
+      color: #f6fffe;
+    }
+
+    h2 {
+      margin-top: 15px;
       margin-bottom: 10px;
-      margin-top: 45px;
+      font-size: 2rem;
     }
 
-    .login-section p {
-      color: #6b9c98;
-      font-size: 0.9rem;
+    p {
       margin-bottom: 35px;
+      font-size: 0.95rem;
+      color: #e4fffb;
     }
 
+    /* Form Input */
     .input-box {
       position: relative;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .input-box input {
       width: 100%;
-      height: 42px;
-      border-radius: 8px;
-      border: 1.8px solid #bcd9d7;
-      padding: 0 40px 0 15px;
+      height: 48px;
+      border-radius: 12px;
+      border: none;
       outline: none;
+      padding: 0 48px 0 18px;
       font-size: 0.95rem;
-      color: #0b5b57;
-      transition: 0.3s;
+
+      background: rgba(255, 255, 255, 0.78);
+      color: #054843;
+
+      transition: 0.25s;
+      box-shadow:
+        inset 3px 3px 6px rgba(0, 0, 0, 0.12),
+        inset -3px -3px 6px rgba(255, 255, 255, 0.6);
     }
 
     .input-box input:focus {
-      border-color: #0b5b57;
-      box-shadow: 0 0 6px rgba(11, 91, 87, 0.15);
+      box-shadow: 
+        0 0 0 3px rgba(0, 255, 213, 0.35),
+        inset 0 0 12px rgba(0, 255, 213, 0.45);
+      background: #ffffff;
     }
 
     .input-box i {
       position: absolute;
-      right: 12px;
-      top: 12px;
-      color: #7ba7a4;
+      right: 16px;
+      top: 14px;
+      color: #0e8278;
+      font-size: 1.05rem;
+      cursor: pointer;
     }
 
+    /* Login Button */
     .login-btn {
       width: 100%;
-      height: 42px;
-      background-color: #1aa897;
-      color: #fff;
+      height: 50px;
+      border-radius: 12px;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 500;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: white;
+
+      background: linear-gradient(135deg, #13c7b5, #0ea58f);
       cursor: pointer;
-      transition: background 0.3s;
+
+      box-shadow:
+        0 4px 15px rgba(13, 150, 130, 0.35),
+        inset 0 0 8px rgba(255, 255, 255, 0.25);
+
+      transition: .3s;
     }
 
     .login-btn:hover {
-      background-color: #149384;
+      transform: translateY(-2px);
+      box-shadow:
+        0 7px 18px rgba(13, 150, 130, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
     .forgot {
       text-align: right;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .forgot a {
-      color: #0b5b57;
-      text-decoration: none;
+      color: #cafff3;
       font-size: 0.9rem;
+      text-decoration: none;
     }
 
-    .forgot a:hover {
-      text-decoration: underline;
-    }
-
+    /* RIGHT SIDE illustration */
     .illustration {
       flex: 1;
-      background: linear-gradient(135deg, #e3f4f2 0%, #bde6e2 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
     }
 
     .illustration img {
-      width: 340px;
-      max-width: 90%;
-      z-index: 2;
+      width: 360px;
+      animation: floatImg 4s infinite ease-in-out alternate;
     }
-    .form{
-      margin-bottom: 100px;
+
+    @keyframes floatImg {
+      from { transform: translateY(0); }
+      to { transform: translateY(-18px); }
     }
+
+
+    /* Responsive */
     @media (max-width: 900px) {
       .container {
         flex-direction: column;
-        width: 90%;
+        width: 92%;
         height: auto;
       }
 
-      .login-section {
-        padding: 40px 40px;
-      }
-
-      .top-logo,
-      .credit {
-        left: 40px;
-      }
-
-      .illustration {
-        padding: 40px;
-      }
-
-      .illustration img {
-        width: 250px;
-      }
+      .illustration img { width: 240px; margin-top: 20px; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="bg-circle1"></div>
-  <div class="bg-circle2"></div>
+  <div class="light"></div>
+  <div class="light"></div>
 
   <div class="container">
 
-    <!-- LOGO + ATRIBUSI -->
     <div class="login-section">
 
-      <!-- Logo -->
       <div class="top-logo">
-        <img src="{{ asset('gambar/file.png') }}" alt="Icon">
-        <span>Legalisir Akta || Disdukcapil Kota Cirebon</span>
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Legalisir Akta | Disdukcapil Cirebon</span>
       </div>
 
-      <div class="form">
-        <h2>Login</h2>
-        <p>Masuk ke Legalisir Akta Kependudukan Disdukcapil</p>
+      <h2>Selamat Datang</h2>
+      <p>Masuk untuk mengakses layanan legalisir akta kependudukan.</p>
 
-        <form method="POST" action="{{ route('admin.login.submit') }}">
-          @csrf
+      <form method="POST" action="{{ route('admin.login.submit') }}">
+        @csrf
 
-          <div class="input-box">
-            <input type="email" name="email" placeholder="Email Address" required>
-            <i class="fa-regular fa-envelope"></i>
-          </div>
+        <div class="input-box">
+          <input type="email" name="email" placeholder="Email" required>
+          <i class="fa-regular fa-envelope"></i>
+        </div>
 
-          <div class="input-box">
-            <input type="password" name="password" id="password" placeholder="Password" required>
-            <i class="fa-regular fa-eye" id="togglePassword" style="cursor:pointer;"></i>
-          </div>
+        <div class="input-box">
+          <input type="password" name="password" id="password" placeholder="Password" required>
+          <i class="fa-solid fa-eye" id="togglePassword"></i>
+        </div>
 
-          <button type="submit" class="login-btn">Login</button>
+        <button class="login-btn">Login</button>
 
-          <div class="forgot">
-            <a href="#">Forgot your password?</a>
-          </div>
-        </form>
-      </div>
+        <div class="forgot">
+          <a href="#">Lupa password?</a>
+        </div>
+
+      </form>
     </div>
 
     <div class="illustration">
-      <img src="{{ asset('gambar/smart_12864048.png') }}" alt="Ilustrasi Login Disdukcapil">
+      <img src="{{ asset('gambar/smart_12864048.png') }}" alt="Ilustrasi Login">
     </div>
 
   </div>
 
   <script>
-    const passwordInput = document.getElementById('password');
-    const togglePassword = document.getElementById('togglePassword');
+    const pass = document.getElementById("password");
+    const toggle = document.getElementById("togglePassword");
 
-    togglePassword.addEventListener('click', function() {
-      const type = passwordInput.type === 'password' ? 'text' : 'password';
-      passwordInput.type = type;
-      this.classList.toggle('fa-eye');
-      this.classList.toggle('fa-eye-slash');
-    });
+    toggle.onclick = () => {
+      pass.type = pass.type === "password" ? "text" : "password";
+      toggle.classList.toggle("fa-eye");
+      toggle.classList.toggle("fa-eye-slash");
+    };
   </script>
 
 </body>
-
 </html>
