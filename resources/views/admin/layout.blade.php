@@ -19,13 +19,14 @@
         /* === SIDEBAR === */
         .sidebar {
             width: 240px;
-            background: linear-gradient(180deg, #0b5b57 60%, #0e736e 100%);
-            color: #fff;
+            background: #fff;
+            color: #0b5b57;
             min-height: 100vh;
             position: fixed;
             left: 0; top: 0; bottom: 0;
-            border-right: 3px solid #f7a61c;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+            box-shadow: 4px 0 24px rgba(0,0,0,0.13);
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -44,24 +45,25 @@
             transition: all .25s;
         }
 
-        /* 1. Inisial admin, latar oranye, tanpa icon file */
+        /* Sidebar profile kotak sedikit (rounded-3) */
         .sidebar-profile-circle {
             width: 60px; height: 60px;
-            border-radius: 50%;
-            background: #f7a61c;
-            color: #fff;
+            border-radius: 14px; /* Lebih kotak, bukan bulet penuh */
+            background: #0b5b57 !important;
+            color: #fff !important;
             font-weight: 700;
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 8px auto;
             font-size: 1.7rem;
             letter-spacing: 1px;
-            text-decoration: none; /* 2. Hilangkan underline */
-            transition: width .25s, height .25s, font-size .25s;
+            text-decoration: none;
+            transition: width .25s, height .25s, font-size .25s, border-radius .25s;
             user-select: none;
         }
         .sidebar.collapsed .sidebar-profile-circle {
             width: 38px; height: 38px;
             font-size: 1.1rem;
+            border-radius: 10px;
         }
 
         .sidebar-profile-name {
@@ -70,10 +72,11 @@
             transition: opacity .2s;
         }
 
+        /* Email hijau */
         .sidebar-profile-email {
             font-size: 0.85rem;
-            color: #e0f0ef;
-            transition: opacity .2s;
+            color: #0b5b57 !important;
+            transition: opacity .2s, color .2s;
         }
 
         .sidebar.collapsed .sidebar-profile-name,
@@ -82,8 +85,9 @@
             pointer-events: none;
         }
 
+        /* Sidebar nav-link */
         .sidebar .nav-link {
-            color: #ffffff;
+            color: #0b5b57;
             font-weight: 500;
             padding: 10px 18px;
             border-radius: 8px;
@@ -95,15 +99,24 @@
             position: relative;
         }
 
+        /* HOVER: hijau solid, icon & teks putih */
         .sidebar .nav-link:hover, 
         .sidebar .nav-link.active {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
+            background: #0b5b57 !important;
+            color: #fff !important;
         }
 
+        /* Icon sidebar default hijau */
         .sidebar .nav-link i {
             font-size: 1.25rem;
             min-width: 28px;
+            color: #0b5b57 !important;
+            transition: color .2s;
+        }
+
+        .sidebar .nav-link:hover i,
+        .sidebar .nav-link.active i {
+            color: #fff !important;
         }
 
         .sidebar.collapsed .nav-link {
@@ -114,14 +127,14 @@
             display: none;
         }
 
-        /* 7. Tooltip hover untuk sidebar collapsed */
+        /* Tooltip hover untuk sidebar collapsed */
         .sidebar.collapsed .nav-link::after {
             content: attr(data-label);
             position: absolute;
             left: calc(100% + 4px);
             top: 50%;
             transform: translateY(-50%) scale(0.95);
-            background: #0b5b57; /* Warna hijau utama, tanpa gradasi */
+            background: #0b5b57;
             color: #fff;
             padding: 6px 18px;
             border-radius: 10px;
@@ -136,13 +149,12 @@
                 transform .28s cubic-bezier(.4,2,.6,1),
                 box-shadow .28s cubic-bezier(.4,2,.6,1);
             z-index: 9999;
-            border-left: 4px solid #f7a61c; /* Oranye */
         }
         .sidebar.collapsed .nav-link:hover::after {
             opacity: 1;
             transform: translateY(-50%) scale(1.07) translateX(6px);
-            box-shadow: 0 4px 18px rgba(247,166,28,0.18); /* Oranye transparan */
-            background: #f7a61c; /* Oranye penuh */
+            box-shadow: 0 4px 18px rgba(26,168,151,0.18);
+            background: #0b5b57;
             color: #fff;
         }
 
@@ -151,27 +163,33 @@
             padding: 1rem;
         }
 
-        /* 5. Logout button: collapsed = icon merah saja */
         .btn-logout {
             width: 100%;
-            background: #dc3545 !important;
-            color: #fff;
+            background: transparent !important;   /* Hilangkan warna latar */
+            color: #dc3545 !important;            /* Warna merah untuk icon & teks */
             border: none;
             border-radius: 8px;
             padding: 10px;
             font-weight: 600;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.2s, color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-        .btn-logout:hover {
-            background: #b52a37 !important;
+        .btn-logout i {
+            color: #dc3545 !important;            /* Icon merah */
+        }
+        .btn-logout:hover, .btn-logout:focus {
+            background: rgba(220,53,69,0.08) !important; /* Sedikit highlight saat hover */
+            color: #b52a37 !important;
+        }
+        .btn-logout:hover i, .btn-logout:focus i {
+            color: #b52a37 !important;
         }
         .sidebar.collapsed .btn-logout {
-            background: #dc3545 !important;
-            color: #fff;
+            background: transparent !important;
+            color: #dc3545 !important;
             width: 38px;
             height: 38px;
             padding: 0;
@@ -182,42 +200,45 @@
         .sidebar.collapsed .btn-logout span {
             display: none;
         }
-
         /* === HEADER === */
         .header-app {
-            background: #0b5b57;
-            color: #fff;
-            padding: 14px 24px;
+            background: #fff;
+            color: #0b5b57;
+            padding: 14px 40px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Geser konten header ke kiri */
             align-items: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            gap: 0;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            margin-right: auto;
+            gap: 10px;
         }
 
-        /* 3. Icon sidebar toggle & judul oranye */
+        /* Header sidebar toggle */
         .header-sidebar-toggle {
             cursor: pointer;
             font-size: 1.3rem;
-            background: rgba(255,255,255,0.15);
+            background: #e6f7f5;
             padding: 6px 10px;
             border-radius: 8px;
             transition: background .2s, color .2s, transform .5s cubic-bezier(.4,2,.6,1);
-            color: #f7a61c;
+            color: #0b5b57;
             display: flex;
             align-items: center;
         }
         .header-sidebar-toggle:hover {
-            background: rgba(255,255,255,0.3);
-            color: #f7a61c;
+            background: #0b5b57 !important;
+            color: #fff !important;
         }
         .header-sidebar-toggle.rotating {
             animation: rotateIcon .6s cubic-bezier(.4,2,.6,1);
@@ -227,31 +248,107 @@
             100% { transform: rotate(360deg);}
         }
         .header-sidebar-toggle i {
-            animation: rotateIcon 2.5s linear infinite;
+            color: #0b5b57 !important;
+        }
+        .header-sidebar-toggle:hover i {
+            color: #fff !important;
         }
 
         .header-title {
             font-size: 1.1rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            color: #fff; /* Ubah ke putih */
+            color: #0b5b57;
             transition: color .2s;
         }
 
+        /* Header profile kotak */
         .header-profile-circle {
             width: 38px; height: 38px;
-            border-radius: 50%;
-            background: #f7a61c;
+            border-radius: 10px;
+            background: #0b5b57 !important;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: #fff;
+            color: #fff !important;
             cursor: pointer;
-            text-decoration: none; /* 2. Hilangkan underline */
+            text-decoration: none !important;
             font-size: 1.1rem;
             letter-spacing: 1px;
             user-select: none;
+        }
+
+        .header-profile-circle::after {
+            display: none !important;
+        }
+
+        .dropdown-menu {
+            min-width: 160px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+        }
+
+        .dropdown-item {
+            font-weight: 500;
+            color: #0b5b57;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            background: #e6f7f5;
+            color: #0b5b57;
+        }
+
+        .dropdown-item.text-danger, .dropdown-item.text-danger i {
+            color: #dc3545 !important;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background: rgba(220,53,69,0.08);
+            color: #b52a37 !important;
+        }
+
+        .dropdown-item i {
+            min-width: 20px;
+        }
+
+        /* Dropdown hanya muncul saat hover di profile atau di dropdown menu */
+        .header-app .dropdown:hover .dropdown-menu,
+        .header-app .dropdown:focus-within .dropdown-menu,
+        .header-app .dropdown .dropdown-menu:hover {
+            display: block;
+            margin-top: -10px;    /* Naikkan agar area hover overlap dengan profile */
+            pointer-events: auto;
+        }
+
+        /* Geser dropdown lebih ke kiri jika perlu */
+        .dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
+            transform: translateX(-60px); /* Atur sesuai kebutuhan */
+        }
+
+        /* Hanya hover, tanpa klik: dropdown muncul saat kursor di profile atau di dropdown */
+        .header-app .dropdown .dropdown-toggle {
+            pointer-events: auto;
+        }
+
+        /* Tampilkan dropdown saat hover di logo profile atau dropdown menu */
+        .header-app .dropdown:hover .dropdown-menu,
+        .header-app .dropdown:focus-within .dropdown-menu,
+        .header-app .dropdown .dropdown-menu:hover {
+            display: block;
+            margin-top: 4px;      /* Dekatkan dropdown ke profile */
+            pointer-events: auto;
+        }
+
+        /* Geser dropdown lebih ke kiri */
+        .dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
+            transform: translateX(-60px); /* Atur sesuai kebutuhan, -60px biasanya pas */
         }
 
         /* === CONTENT === */
@@ -276,18 +373,18 @@
 
         /* === FOOTER === */
         .footer-app {
-            background: #f5f5f5;      /* Abu terang */
+            background: #f5f5f5;
             color: #0b5b57;
             padding: 40px 0 30px;
             text-align: center;
             border-top: 1.5px solid #e0e0e0;
-            margin-top: auto; /* Ini akan mendorong footer ke bawah */
+            margin-top: auto;
         }
 
         .footer-brand {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #0b5b57;           /* Hijau */
+            color: #0b5b57;
             margin-bottom: 5px;
         }
 
@@ -304,6 +401,9 @@
             }
             .content-area {
                 margin-left: 0;
+            }
+            .header-app {
+                padding: 10px 16px; /* Responsive: tetap ada jarak */
             }
         }
     </style>
@@ -367,9 +467,27 @@
                 </div>
                 <div class="header-title">DISDUKCAPIL KOTA CIREBON</div>
             </div>
-            <a href="{{ route('admin.profile') }}" class="header-profile-circle">
-                {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
-            </a>
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="header-profile-circle dropdown-toggle" id="profileDropdown" aria-expanded="false" style="text-decoration:none;">
+                    {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
+                    <li>
+                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                            <i class="fa fa-user me-2"></i> Profile
+                        </a>
+                    </li>
+                    <li>
+                        <form id="logout-form-header" action="{{ route('admin.logout') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confirmLogoutModal">
+                                <i class="fa fa-sign-out-alt me-2"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </header>
 
         <main class="flex-fill">
