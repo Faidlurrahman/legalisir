@@ -22,6 +22,7 @@ class AdminSeeder extends Seeder
                 'jenis_kelamin' => 'P',
                 'no_telepon' => '0819-1144-9507',
                 'nip' => '198705122022032001',
+                'alamat' => 'Jl. Siliwangi No. 1, Cirebon',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -34,6 +35,7 @@ class AdminSeeder extends Seeder
                 'jenis_kelamin' => 'L',
                 'no_telepon' => '081298765432',
                 'nip' => '199001012022032002',
+                'alamat' => 'Jl. Merdeka No. 2, Jakarta',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
