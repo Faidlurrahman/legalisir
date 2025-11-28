@@ -9,10 +9,7 @@
         --text-dark: #222;
     }
 
-    body, main.flex-fill {
-        background: #fff !important;
-        font-family: "Inter", sans-serif;
-    }
+
 
     /* ================= PAGE TITLES ================= */
     .page-title {
@@ -142,8 +139,8 @@
 </h2>
 
 {{-- ================= FILTER FORM ================= --}}
-<form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light">
-    <div class="col-md-3">
+<form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light align-items-end flex-nowrap" style="flex-wrap:nowrap;">
+    <div class="col-md-3" style="min-width:180px;">
         <select name="jenis_akta" class="form-select">
             <option value="">Jenis Akta</option>
             <option value="kelahiran" {{ request('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
@@ -152,13 +149,11 @@
             <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
         </select>
     </div>
-
-    <div class="col-md-2">
+    <div class="col-md-2" style="min-width:150px;">
         <input type="date" name="tanggal" id="tanggalInput"
                class="form-control" value="{{ request('tanggal') }}">
     </div>
-
-    <div class="col-md-3">
+    <div class="col-md-3" style="min-width:180px;">
         <select name="rentang" id="rentangInput" class="form-select">
             <option value="">Rentang Waktu</option>
             <option value="today" {{ request('rentang')=='today'?'selected':'' }}>Hari Ini</option>
@@ -166,14 +161,12 @@
             <option value="month" {{ request('rentang')=='month'?'selected':'' }}>Bulan Ini</option>
         </select>
     </div>
-
-    <div class="col-md-2">
+    <div class="col-md-2" style="min-width:160px;">
         <button class="btn btn-green w-100" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
     </div>
-
-    <div class="col-md-2">
+    <div class="col-md-2" style="min-width:180px;">
         <button type="button" class="btn btn-green w-100" onclick="window.print()">
             <i class="fa fa-print"></i> Cetak Laporan
         </button>
