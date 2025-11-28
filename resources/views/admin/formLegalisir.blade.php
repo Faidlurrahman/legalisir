@@ -6,9 +6,10 @@
 
     .legalisir-card {
         background: #ffffff;
-        border-radius: 15px;
-        padding: 28px 32px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        padding: 18px 16px;
+        box-shadow: 0 2px 10px rgba(11,91,87,0.08);
+        margin-bottom: 18px;
     }
 
     .form-title {
@@ -16,43 +17,53 @@
         font-weight: 700;
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
+        gap: 8px;
+        margin-bottom: 16px;
+        font-size: 1.18rem;
     }
 
     label {
         font-weight: 600;
         color: #0b5b57;
+        font-size: 0.98rem;
+        margin-bottom: 2px;
     }
 
     .form-control, textarea, select {
         border: none !important;
         border-bottom: 2px solid #0b5b57 !important;
         border-radius: 0;
-        padding: 8px 6px;
+        padding: 7px 6px;
         box-shadow: none !important;
+        font-size: 0.97rem;
         transition: .15s;
+        background: #f8f9fa;
     }
 
     .form-control:focus, textarea:focus, select:focus {
         border-color: #0e736e !important;
+        background: #f3f3f3;
     }
 
     textarea {
-        min-height: 120px;
+        min-height: 80px;
         resize: vertical;
+        font-size: 0.97rem;
     }
-
-    /* ====== INPUT GAMBAR ====== */
 
     .upload-box {
         border: 2px dashed #0b5b57;
         background: #f7fdfc;
-        padding: 20px;
-        border-radius: 12px;
+        padding: 14px;
+        border-radius: 10px;
         text-align: center;
         cursor: pointer;
         transition: .2s;
+        min-height: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .upload-box:hover {
@@ -62,34 +73,69 @@
     .upload-placeholder {
         color: #0b5b57;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .upload-box img {
-        max-height: 180px;
+        max-height: 120px;
         max-width: 100%;
         object-fit: contain;
         border-radius: 8px;
+        margin-bottom: 4px;
+        cursor: pointer;
     }
 
     .btn-remove-image {
         display: none;
-        margin-top: 8px;
+        margin-top: 6px;
+        font-size: 0.93rem;
+        padding: 4px 10px;
+        border-radius: 7px;
     }
 
-    /* SUBMIT BUTTON */
     .btn-submit {
         background: #0b5b57;
         color: #fff;
         font-weight: 600;
-        padding: 10px 28px;
+        padding: 8px 18px;
         border-radius: 8px;
         border: none;
+        font-size: 1rem;
         transition: .2s;
     }
 
     .btn-submit:hover {
         background: #094d49;
+    }
+
+    .alert {
+        font-size: 0.97rem;
+        padding: 8px 12px;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 900px) {
+        .legalisir-card {
+            padding: 10px 4px;
+        }
+        .form-title {
+            font-size: 1rem;
+            gap: 5px;
+        }
+        .row.g-4 > [class^="col-"] {
+            margin-bottom: 10px;
+        }
+        .upload-box {
+            min-height: 60px;
+            padding: 8px;
+        }
+        .upload-box img {
+            max-height: 70px;
+        }
+        .btn-submit {
+            padding: 7px 10px;
+            font-size: 0.97rem;
+        }
     }
 </style>
 

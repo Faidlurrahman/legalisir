@@ -29,7 +29,7 @@
 
 <style>
 #editModal .modal-dialog {
-    max-width: 500px !important; /* Lebar modal diperkecil */
+    max-width: 420px !important;
     width: 98vw;
     margin: 0 auto;
 }
@@ -83,24 +83,39 @@
     max-height: 45px;
     margin-top: 4px;
 }
-/* Ganti hijau ke hijau layout */
-.btn-filter-green,
-.btn-success,
-.btn-filter-green:focus,
-.btn-success:focus {
-    background: #0b5b57 !important;
-    border-color: #0b5b57 !important;
-    color: #fff !important;
-    font-weight: bold;
+/* Perbaikan CSS Data Legalisir agar lebih ringkas, responsif, dan konsisten */
+.table-responsive {
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(11,91,87,0.07);
+    background: #fff;
+    margin-bottom: 18px;
 }
-.table-header-green th,
-.table-header-green th:first-child {
-    background: #f5f5f5 !important; /* Abu terang */
-    color: #0b5b57 !important;      /* Hijau */
+
+.table {
+    font-size: 0.97rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
 }
+
+.table th, .table td {
+    padding: 8px 6px;
+    vertical-align: middle;
+    border-color: #e0e0e0 !important;
+}
+
+.table-header-green th {
+    background: #f5f5f5 !important;
+    color: #0b5b57 !important;
+    font-weight: 700;
+    font-size: 1rem;
+    border-bottom: 2px solid #0b5b57 !important;
+}
+
 .table-green-row {
-    background: #d5eae9 !important; /* hijau muda layout */
+    background: #d5eae9 !important;
 }
+
 .alasan-ellipsis {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -109,10 +124,77 @@
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
-    max-width: 220px;
+    max-width: 180px;
     font-size: 0.97rem;
     line-height: 1.3;
     min-width: 80px;
+}
+
+.badge {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn {
+    font-size: 0.97rem;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-weight: 600;
+}
+
+.btn-info {
+    background: #38b2ac !important;
+    border-color: #319795 !important;
+    color: #fff !important;
+}
+
+.btn-danger {
+    background: #ef4444 !important;
+    border-color: #dc2626 !important;
+    color: #fff !important;
+}
+
+.btn-success {
+    background: #0b5b57 !important;
+    border-color: #0b5b57 !important;
+    color: #fff !important;
+}
+
+.btn-filter-green {
+    background: #0b5b57 !important;
+    border-color: #0b5b57 !important;
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.form-control, .form-select {
+    font-size: 0.97rem;
+    border-radius: 8px;
+    padding: 6px 10px;
+    height: 32px;
+}
+
+.img-thumbnail {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    object-fit: cover;
+}
+
+@media (max-width: 900px) {
+    .table th, .table td {
+        font-size: 0.93rem;
+        padding: 6px 3px;
+    }
+    .alasan-ellipsis {
+        max-width: 110px;
+        font-size: 0.92rem;
+    }
+    .table-responsive {
+        padding: 0;
+        box-shadow: none;
+    }
 }
 </style>
 <div class="d-flex flex-wrap gap-2 mb-4 align-items-center">

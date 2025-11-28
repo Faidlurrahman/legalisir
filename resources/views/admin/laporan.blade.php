@@ -9,14 +9,13 @@
         --text-dark: #222;
     }
 
-
-
     /* ================= PAGE TITLES ================= */
     .page-title {
         color: var(--green);
         font-weight: 700;
-        font-size: 1.7rem;
-        letter-spacing: .3px;
+        font-size: 1.25rem;
+        letter-spacing: .2px;
+        margin-bottom: 10px;
     }
 
     /* ================= BUTTON THEME ================= */
@@ -25,25 +24,65 @@
         border-color: var(--green) !important;
         color: #fff !important;
         font-weight: 600;
+        border-radius: 8px;
+        font-size: 0.97rem;
+        padding: 7px 14px;
+        transition: background .2s, color .2s;
     }
 
     .btn-green:hover {
         opacity: .9;
+        background: #094d49 !important;
+    }
+
+    /* ================= FILTER FORM ================= */
+    form.row.g-2 {
+        font-size: 0.97rem;
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .form-select, .form-control {
+        font-size: 0.97rem;
+        border-radius: 8px;
+        padding: 6px 10px;
+        height: 32px;
     }
 
     /* ================= TABLE ================= */
+    .table-responsive {
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(11,91,87,0.07);
+        background: #fff;
+        margin-bottom: 18px;
+    }
+
+    .table {
+        font-size: 0.97rem;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .table th, .table td {
+        padding: 8px 6px;
+        vertical-align: middle;
+        border-color: var(--border-soft) !important;
+    }
+
     .table-header th {
         background: var(--light-gray) !important;
         color: var(--green) !important;
         font-weight: 600;
         text-align: center;
+        font-size: 1rem;
+        border-bottom: 2px solid var(--green) !important;
     }
 
     .table-bordered > :not(caption) > * > * {
         border-color: var(--border-soft) !important;
     }
 
-    /* FIRST DATA ROW */
     .table tbody tr:first-child {
         background: var(--green) !important;
         color: #fff;
@@ -54,9 +93,33 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        max-width: 240px;
+        max-width: 180px;
         font-size: .95rem;
         line-height: 1.3;
+        word-break: break-word;
+    }
+
+    /* ================= BADGE ================= */
+    .badge {
+        font-size: 0.95rem;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .bg-info { background-color: #0dcaf0 !important; color: #fff !important; }
+    .bg-danger { background-color: #dc3545 !important; color: #fff !important; }
+    .bg-primary { background-color: #0d6efd !important; color: #fff !important; }
+    .bg-warning { background-color: #ffc107 !important; color: #000 !important; }
+    .bg-secondary { background-color: #6c757d !important; color: #fff !important; }
+
+    /* ================= IMAGE ================= */
+    .table img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ddd;
     }
 
     /* ================= PRINT ================= */
@@ -129,6 +192,28 @@
 
     .print-header {
         display: none;
+    }
+
+    /* ================= PAGINATION ================= */
+    .d-flex.flex-column.flex-md-row {
+        font-size: 0.97rem;
+        gap: 8px;
+        margin-top: 8px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .text-muted.small {
+        font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+        .page-title { font-size: 1.05rem; }
+        .table th, .table td { font-size: 0.93rem; padding: 6px 3px; }
+        .alasan-ellipsis { max-width: 110px; font-size: 0.92rem; }
+        .table-responsive { padding: 0; box-shadow: none; }
+        .form-select, .form-control { font-size: 0.93rem; padding: 5px 7px; height: 28px; }
+        .badge { font-size: 0.92rem; padding: 4px 8px; }
     }
 </style>
 

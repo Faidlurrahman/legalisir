@@ -2,6 +2,7 @@
 
 @section('content')
 <style>
+    /* Perbaikan CSS Dashboard agar lebih konsisten di berbagai layar */
     body,
     main.flex-fill {
         background: #fff !important;
@@ -10,28 +11,23 @@
     .dashboard-title {
         font-weight: 700;
         color: #0b5b57;
+        font-size: 1.45rem;
     }
 
     .dashboard-clock {
         display: inline-block;
-        min-width: 120px;
+        min-width: 100px;
         text-align: center;
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 700;
         color: #0b5b57;
-        letter-spacing: 1px;
         background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
         border: 1px solid rgba(11,91,87,0.18);
         border-radius: 999px;
-        padding: 8px 18px;
+        padding: 7px 14px;
         box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
         transition: transform .18s ease, box-shadow .18s ease;
         animation: clockPulse 2.4s ease-in-out infinite;
-    }
-
-    .dashboard-clock:focus {
-        outline: none;
-        box-shadow: 0 8px 22px rgba(11,91,87,0.13);
     }
 
     @keyframes clockPulse {
@@ -43,45 +39,34 @@
     .stat-week-label {
         font-weight: bold;
         color: #0b5b57;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
 
-    @keyframes statPop {
-        0% { transform: scale(0.85); opacity: 0.7;}
-        60% { transform: scale(1.08);}
-        100% { transform: scale(1); opacity: 1;}
-    }
-
-    /* Card statistik atas: kecil & warna beragam */
     .card-stat {
         border: none;
-        border-radius: 16px;
+        border-radius: 14px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
         transition: transform .3s, box-shadow .3s;
-        padding: 1.5rem 1rem;
+        padding: 1.2rem 0.8rem;
         color: #fff;
         position: relative;
         overflow: hidden;
         cursor: pointer;
         animation: statPop .8s;
-        min-height: 120px;
+        min-height: 90px;
+        font-size: 0.98rem;
     }
     .card-stat:hover {
-        transform: translateY(-6px) scale(1.03);
+        transform: translateY(-4px) scale(1.02);
         box-shadow: 0 8px 24px rgba(0,0,0,0.13);
     }
     .card-stat .icon-bg {
         position: absolute;
-        top: -18px;
-        right: -18px;
-        font-size: 3.5rem;
+        top: -12px;
+        right: -12px;
+        font-size: 2.5rem;
         opacity: 0.12;
         animation: iconPop .8s;
-    }
-    @keyframes iconPop {
-        0% { transform: scale(0.7);}
-        70% { transform: scale(1.1);}
-        100% { transform: scale(1);}
     }
     .card-stat.kelahiran {
         background: linear-gradient(135deg, #38b2ac 80%, #319795 100%);
@@ -97,100 +82,57 @@
     }
     .card-stat h6 {
         color: #fff;
-        font-size: 1rem;
+        font-size: 0.98rem;
         font-weight: 500;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
     }
     .card-stat h3 {
         color: #fff;
         font-weight: 700;
-        font-size: 2.1rem;
+        font-size: 1.5rem;
         margin-bottom: 0;
         letter-spacing: 1px;
     }
     .card-stat .desc {
-        font-size: 0.95rem;
+        font-size: 0.93rem;
         color: #ffeccc;
     }
 
-    /* Statistik Mingguan Akta: diperbesar & animasi */
     .chart-card {
-        border-radius: 20px;
+        border-radius: 16px;
         background-color: #fff;
         box-shadow: 0 4px 18px rgba(11,91,87,0.10);
-        padding: 40px 32px 32px 32px;
+        padding: 28px 18px 18px 18px;
         animation: fadeInUpBig .9s cubic-bezier(.4,2,.6,1);
-        min-height: 370px;
+        min-height: 260px;
         transition: box-shadow .3s, transform .3s;
     }
     .chart-card:hover {
         box-shadow: 0 12px 32px rgba(11,91,87,0.13);
-        transform: scale(1.025);
-    }
-    @keyframes fadeInUpBig {
-        from { opacity: 0; transform: translateY(60px);}
-        to { opacity: 1; transform: translateY(0);}
+        transform: scale(1.015);
     }
     .chart-card .stat-title {
         color: #0b5b57;
-        font-size: 1.45rem;
+        font-size: 1.15rem;
         font-weight: 800;
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 1.3rem;
+        gap: 10px;
+        margin-bottom: 1rem;
         letter-spacing: 0.5px;
         text-shadow: 0 2px 8px rgba(11,91,87,0.08);
-        animation: fadeInUpBig .9s cubic-bezier(.4,2,.6,1);
     }
     .chart-card .stat-title i {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         color: #0b5b57;
     }
 
     .table-card {
-        border-radius: 16px;
+        border-radius: 12px;
         background: #fff;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        padding: 20px;
+        padding: 14px;
         animation: fadeIn .8s;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px);}
-        to { opacity: 1; transform: translateY(0);}
-    }
-
-    .table thead {
-        background: #0b5b57 !important;
-    }
-
-    .btn-week {
-        background: #0b5b57;
-        color: #fff !important;
-        border-radius: 8px;
-        border: none;
-        padding: 8px 20px;
-        font-weight: 600;
-        margin-right: 8px;
-        transition: background .2s, color .2s, box-shadow .2s;
-        box-shadow: 0 2px 8px rgba(11,91,87,0.08);
-    }
-    .btn-week:hover {
-        background: #0e736e;
-        color: #fff !important;
-        box-shadow: 0 4px 16px rgba(11,91,87,0.13);
-    }
-
-    .card .fw-bold,
-    .card .mb-2[style*="font-size:2rem"] {
-        color: #0b5b57 !important;
-    }
-    .card .mb-2.text-muted {
-        color: #0b5b57 !important;
-    }
-    #statusAktaRange,
-    #statusAktaRange option {
-        color: #0b5b57 !important;
     }
     .table-card h5,
     .table-card i.fa-list {
@@ -199,8 +141,12 @@
     .table thead,
     .table thead tr,
     .table thead th {
-        background: #f5f5f5 !important; /* Abu terang */
-        color: #0b5b57 !important;      /* Hijau */
+        background: #f5f5f5 !important;
+        color: #0b5b57 !important;
+    }
+    .table th, .table td {
+        font-size: 0.97rem;
+        padding: 8px 6px;
     }
     .alasan-ellipsis {
         display: -webkit-box;
@@ -210,10 +156,38 @@
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: break-word;
-        max-width: 220px;
-        font-size: 0.97rem;
+        max-width: 180px;
+        font-size: 0.95rem;
         line-height: 1.3;
         min-width: 80px;
+    }
+
+    .btn-week {
+        background: #0b5b57;
+        color: #fff !important;
+        border-radius: 8px;
+        border: none;
+        padding: 7px 14px;
+        font-weight: 600;
+        margin-right: 6px;
+        font-size: 0.97rem;
+        transition: background .2s, color .2s, box-shadow .2s;
+        box-shadow: 0 2px 8px rgba(11,91,87,0.08);
+    }
+    .btn-week:hover {
+        background: #0e736e;
+        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(11,91,87,0.13);
+    }
+
+    @media (max-width: 900px) {
+        .dashboard-title { font-size: 1.1rem; }
+        .table-card, .chart-card { padding: 8px; }
+        .card-stat { min-height: 70px; font-size: 0.93rem; }
+        .card-stat h3 { font-size: 1.1rem; }
+        .chart-card { min-height: 180px; }
+        .table th, .table td { font-size: 0.93rem; padding: 6px 3px; }
+        .alasan-ellipsis { max-width: 110px; font-size: 0.92rem; }
     }
 </style>
 

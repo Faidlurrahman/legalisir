@@ -3,27 +3,27 @@
 @section('content')
 <style>
 .profile-fullpage {
-    max-width: 900px;
-    margin: 24px auto 0 auto;
-    padding: 0 16px;
+    max-width: 850px;
+    margin: 18px auto 0 auto;
+    padding: 0 18px;
 }
 .profile-header-row {
     display: flex;
     align-items: center;
-    gap: 18px;
-    margin-bottom: 18px;
+    gap: 22px;
+    margin-bottom: 16px;
 }
 .profile-header-info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
 }
 .profile-initial {
-    width: 54px; height: 54px;
+    width: 52px; height: 52px;
     border-radius: 50%;
     background: #0b5b57;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -33,42 +33,37 @@
 }
 .profile-header-info .profile-name {
     font-weight: 700;
-    font-size: 1.08rem;
+    font-size: 1.13rem;
     color: #222;
     letter-spacing: .2px;
 }
 .profile-header-info .profile-email {
-    font-size: 0.98rem;
+    font-size: 1.01rem;
     color: #0b5b57;
-    font-weight: 500;
-}
-.profile-header-info .profile-role {
-    color: #0b5b57;
-    font-size: 0.95rem;
     font-weight: 500;
 }
 .profile-gender-row {
     display: flex;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 10px;
     align-items: center;
 }
 .profile-gender-row label {
     font-weight: 600;
     color: #0b5b57;
-    margin-right: 8px;
-    font-size: 0.98rem;
+    margin-right: 7px;
+    font-size: 1.01rem;
 }
 .profile-gender-row .form-check {
     display: flex;
     align-items: center;
     gap: 4px;
-    margin-right: 10px;
+    margin-right: 8px;
 }
 .profile-form-row {
     display: flex;
-    gap: 14px;
-    margin-bottom: 8px;
+    gap: 16px;
+    margin-bottom: 4px;
 }
 .profile-form-col {
     flex: 1;
@@ -80,14 +75,14 @@
     font-weight: 600;
     color: #0b5b57;
     margin-bottom: 2px;
-    font-size: 0.98rem;
+    font-size: 1.01rem;
 }
 .profile-form-col input {
     background: #f8f9fa;
     border: 1px solid #e0e0e0;
     border-radius: 7px;
-    padding: 5px 10px;
-    font-size: 0.95rem;
+    padding: 6px 10px;
+    font-size: 1.01rem;
     color: #222;
 }
 .profile-form-col input:disabled {
@@ -108,8 +103,8 @@
         gap: 8px;
     }
     .profile-initial {
-        width: 38px; height: 38px;
-        font-size: 1rem;
+        width: 34px; height: 34px;
+        font-size: 0.95rem;
     }
 }
 </style>
@@ -123,7 +118,6 @@
             <div class="profile-name">{{ $admin->name }}</div>
             <div class="profile-email">{{ $admin->email }}</div>
         </div>
-        
     </div>
     <form>
         <div class="profile-gender-row">
