@@ -125,7 +125,8 @@
                 {{-- Nama Pemohon --}}
                 <div class="col-md-6">
                     <label>Nama Pemohon</label>
-                    <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required>
+                    <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required
+                        oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
                 </div>
 
                 {{-- Jenis Akta --}}
@@ -143,7 +144,8 @@
                 {{-- Nomor Akta --}}
                 <div class="col-md-6">
                     <label>Nomor Akta</label>
-                    <input type="text" name="no_akta" class="form-control" value="{{ old('no_akta') }}" required>
+                    <input type="text" name="no_akta" class="form-control" value="{{ old('no_akta') }}" required
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
                     <label class="mt-3">Alasan Legalisir</label>
                     <textarea name="alasan" class="form-control">{{ old('alasan') }}</textarea>

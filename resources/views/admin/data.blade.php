@@ -193,7 +193,9 @@
                         <i class="fa fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-sm btn-danger btn-delete" 
-                        data-id="{{ $row->id }}" title="Hapus">
+                        data-id="{{ $row->id }}" 
+                        data-nama="{{ $row->nama }}" 
+                        title="Hapus">
                         <i class="fa fa-trash"></i>
                     </button>
                     <form id="deleteForm{{ $row->id }}" action="{{ route('admin.data.delete', $row->id) }}" method="POST" style="display:none;">
@@ -281,8 +283,13 @@
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content text-center p-3">
       <div class="modal-body">
-        <div class="mb-2 fw-semibold">Apakah Anda Yakin?</div>
-        <div class="mb-3 small text-muted">Data Ini Akan Dihapus?</div>
+        <div class="mb-2 fw-semibold">Konfirmasi Hapus Data</div>
+        <div class="mb-1">
+          <span class="fw-bold text-danger" id="deleteNama"></span>
+        </div>
+        <div class="mb-3 small text-muted">
+          Apakah anda yakin akan hapus data tersebut?
+        </div>
         <div class="d-flex justify-content-center gap-2">
           <button type="button" class="btn btn-danger btn-sm" id="btnDeleteYes">YA</button>
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">BATAL</button>
@@ -335,9 +342,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Konfirmasi hapus
     let deleteId = null;
+    let deleteNama = '';
     document.querySelectorAll('.btn-delete').forEach(function(btn) {
         btn.addEventListener('click', function() {
             deleteId = this.dataset.id;
+            deleteNama = this.dataset.nama;
+            const noAkta = this.closest('tr').querySelector('td:nth-child(4)')?.textContent?.trim() || '';
+            document.getElementById('deleteNama').textContent = `${deleteNama}${noAkta ? ' (' + noAkta + ')' : ''}`;
             var modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
             modal.show();
         });
