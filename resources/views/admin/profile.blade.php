@@ -117,6 +117,9 @@
             {{ strtoupper(substr($admin->name,0,1)) }}
         </div>
         <div class="profile-name">{{ $admin->name }}</div>
+        <div style="font-size:0.98rem; color:#0b5b57; margin-bottom:18px; text-align:center;">
+            {{ $admin->email }}
+        </div>
     </div>
     <!-- Main Content: Informasi -->
     <div class="profile-main-content">

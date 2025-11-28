@@ -45,10 +45,10 @@
             transition: all .25s;
         }
 
-        /* Sidebar profile kotak sedikit (rounded-3) */
+        /* Sidebar profile bulat penuh */
         .sidebar-profile-circle {
             width: 60px; height: 60px;
-            border-radius: 14px; /* Lebih kotak, bukan bulet penuh */
+            border-radius: 50% !important; /* Bulat penuh */
             background: #0b5b57 !important;
             color: #fff !important;
             font-weight: 700;
@@ -63,7 +63,7 @@
         .sidebar.collapsed .sidebar-profile-circle {
             width: 38px; height: 38px;
             font-size: 1.1rem;
-            border-radius: 10px;
+            border-radius: 50% !important; /* Tetap bulat */
         }
 
         .sidebar-profile-name {
@@ -235,13 +235,7 @@
             color: #0b5b57;
             display: flex;
             align-items: center;
-        }
-        .header-sidebar-toggle:hover {
-            background: #0b5b57 !important;
-            color: #fff !important;
-        }
-        .header-sidebar-toggle.rotating {
-            animation: rotateIcon .6s cubic-bezier(.4,2,.6,1);
+            animation: rotateIcon 2s linear infinite; /* Animasi berputar terus */
         }
         @keyframes rotateIcon {
             0% { transform: rotate(0deg);}
@@ -249,6 +243,10 @@
         }
         .header-sidebar-toggle i {
             color: #0b5b57 !important;
+        }
+        .header-sidebar-toggle:hover {
+            background: #0b5b57 !important;
+            color: #fff !important;
         }
         .header-sidebar-toggle:hover i {
             color: #fff !important;
@@ -262,10 +260,10 @@
             transition: color .2s;
         }
 
-        /* Header profile kotak */
+        /* Top bar profile bulat penuh */
         .header-profile-circle {
             width: 38px; height: 38px;
-            border-radius: 10px;
+            border-radius: 50% !important; /* Bulat penuh */
             background: #0b5b57 !important;
             display: flex;
             align-items: center;
@@ -536,20 +534,10 @@
                 </div>
                 <div class="header-title">DISDUKCAPIL KOTA CIREBON</div>
             </div>
-            <!-- Profile Dropdown Hover -->
-            <div class="profile-dropdown-wrapper" style="position:relative;">
-                <div class="header-profile-circle" id="profileDropdownBtn" tabindex="0">
-                    {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
-                </div>
-                <div class="profile-dropdown-menu" id="profileDropdownMenu">
-                    <a href="{{ route('admin.profile') }}" class="dropdown-item">
-                        <i class="fa fa-user me-2"></i> Profile
-                    </a>
-                    <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confirmLogoutModal">
-                        <i class="fa fa-sign-out-alt me-2"></i> Logout
-                    </button>
-                </div>
-            </div>
+            <!-- Profile Logo: langsung ke profile -->
+            <a href="{{ route('admin.profile') }}" class="header-profile-circle" style="text-decoration:none;">
+                {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
+            </a>
         </header>
 
         <main class="flex-fill">
