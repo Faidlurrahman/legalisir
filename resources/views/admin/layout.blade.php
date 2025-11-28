@@ -45,10 +45,10 @@
             transition: all .25s;
         }
 
-        /* Sidebar profile kotak sedikit (rounded-3) */
+        /* Sidebar profile bulat penuh */
         .sidebar-profile-circle {
             width: 60px; height: 60px;
-            border-radius: 14px; /* Lebih kotak, bukan bulet penuh */
+            border-radius: 50% !important; /* Bulat penuh */
             background: #0b5b57 !important;
             color: #fff !important;
             font-weight: 700;
@@ -63,7 +63,7 @@
         .sidebar.collapsed .sidebar-profile-circle {
             width: 38px; height: 38px;
             font-size: 1.1rem;
-            border-radius: 10px;
+            border-radius: 50% !important; /* Tetap bulat */
         }
 
         .sidebar-profile-name {
@@ -235,13 +235,7 @@
             color: #0b5b57;
             display: flex;
             align-items: center;
-        }
-        .header-sidebar-toggle:hover {
-            background: #0b5b57 !important;
-            color: #fff !important;
-        }
-        .header-sidebar-toggle.rotating {
-            animation: rotateIcon .6s cubic-bezier(.4,2,.6,1);
+            animation: rotateIcon 2s linear infinite; /* Animasi berputar terus */
         }
         @keyframes rotateIcon {
             0% { transform: rotate(0deg);}
@@ -249,6 +243,10 @@
         }
         .header-sidebar-toggle i {
             color: #0b5b57 !important;
+        }
+        .header-sidebar-toggle:hover {
+            background: #0b5b57 !important;
+            color: #fff !important;
         }
         .header-sidebar-toggle:hover i {
             color: #fff !important;
@@ -262,10 +260,10 @@
             transition: color .2s;
         }
 
-        /* Header profile kotak */
+        /* Top bar profile bulat penuh */
         .header-profile-circle {
             width: 38px; height: 38px;
-            border-radius: 10px;
+            border-radius: 50% !important; /* Bulat penuh */
             background: #0b5b57 !important;
             display: flex;
             align-items: center;
@@ -277,10 +275,72 @@
             font-size: 1.1rem;
             letter-spacing: 1px;
             user-select: none;
+            transition: box-shadow .18s;
+        }
+        .header-profile-circle:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #0b5b5733;
         }
 
-        .header-profile-circle::after {
-            display: none !important;
+        .profile-dropdown-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            min-width: 170px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+            z-index: 9999;
+            padding: 8px 0;
+            border: 1px solid #e0e0e0;
+            transition: opacity .18s;
+        }
+
+        .profile-dropdown-menu .dropdown-item {
+            font-weight: 500;
+            color: #0b5b57;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .profile-dropdown-menu .dropdown-item:hover, .profile-dropdown-menu .dropdown-item:focus {
+            background: #e6f7f5;
+            color: #0b5b57;
+        }
+
+        .profile-dropdown-menu .dropdown-item.text-danger, .profile-dropdown-menu .dropdown-item.text-danger i {
+            color: #dc3545 !important;
+        }
+
+        .profile-dropdown-menu .dropdown-item.text-danger:hover {
+            background: rgba(220,53,69,0.08);
+            color: #b52a37 !important;
+        }
+
+        .profile-dropdown-menu .dropdown-item i {
+            min-width: 20px;
+        }
+
+        /* Hover logic: dropdown tetap muncul saat hover di profile atau dropdown */
+        .profile-dropdown-wrapper:hover .profile-dropdown-menu,
+        .profile-dropdown-wrapper:focus-within .profile-dropdown-menu,
+        .profile-dropdown-menu:hover {
+            display: block;
         }
 
         .dropdown-menu {
@@ -330,7 +390,7 @@
             transform: translateX(-60px); /* Atur sesuai kebutuhan */
         }
 
-        /* Hanya hover, tanpa klik: dropdown muncul saat kursor di profile atau di dropdown */
+        /* Hanya hover, tanpa klik: dropdown muncul saat kursor di profile atau dropdown */
         .header-app .dropdown .dropdown-toggle {
             pointer-events: auto;
         }
@@ -406,6 +466,13 @@
                 padding: 10px 16px; /* Responsive: tetap ada jarak */
             }
         }
+
+        /* Hapus/override dropdown hover dan menu */
+        .header-app .dropdown,
+        .header-app .dropdown-menu,
+        .header-app .dropdown-toggle {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -467,27 +534,10 @@
                 </div>
                 <div class="header-title">DISDUKCAPIL KOTA CIREBON</div>
             </div>
-            <!-- Profile Dropdown -->
-            <div class="dropdown">
-                <a href="#" class="header-profile-circle dropdown-toggle" id="profileDropdown" aria-expanded="false" style="text-decoration:none;">
-                    {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
-                    <li>
-                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
-                            <i class="fa fa-user me-2"></i> Profile
-                        </a>
-                    </li>
-                    <li>
-                        <form id="logout-form-header" action="{{ route('admin.logout') }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confirmLogoutModal">
-                                <i class="fa fa-sign-out-alt me-2"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+            <!-- Profile Logo: langsung ke profile -->
+            <a href="{{ route('admin.profile') }}" class="header-profile-circle" style="text-decoration:none;">
+                {{ strtoupper(substr(session('admin_name', 'A'),0,1)) }}
+            </a>
         </header>
 
         <main class="flex-fill">
