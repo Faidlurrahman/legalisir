@@ -19,7 +19,7 @@
         align-items: center;
         gap: 8px;
         margin-bottom: 16px;
-        font-size: 1.18rem;
+        font-size: 2rem;
     }
 
     label {

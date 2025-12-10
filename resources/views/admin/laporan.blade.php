@@ -12,10 +12,10 @@
     /* ================= PAGE TITLES ================= */
     .page-title {
         color: var(--green);
-        font-weight: 700;
-        font-size: 1.25rem;
-        letter-spacing: .2px;
-        margin-bottom: 10px;
+        font-weight: 800;
+        font-size: 2rem;
+        letter-spacing: .3px;
+        margin-bottom: 14px;
     }
 
     /* ================= BUTTON THEME ================= */
@@ -79,10 +79,6 @@
         border-bottom: 2px solid var(--green) !important;
     }
 
-    .table-bordered > :not(caption) > * > * {
-        border-color: var(--border-soft) !important;
-    }
-
     .table tbody tr:first-child {
         background: var(--green) !important;
         color: #fff;
@@ -126,9 +122,10 @@
     @media print { 
         body {
             background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
-        /* Hide all controls */
         form,
         .btn,
         .pagination,
@@ -136,95 +133,49 @@
         header,
         nav,
         footer,
-        .sidebar {
+        .sidebar,
+        .pagination-info-screen { /* HILANG SAAT PRINT */
             display: none !important;
         }
 
         .print-header {
             display: block !important;
             text-align: center;
+            margin-top: 10px;
             margin-bottom: 20px;
         }
 
-        .print-header h2 {
-            font-size: 20px;
-            margin-bottom: 3px;
-            font-weight: 700;
-        }
+        @page { margin: 0 !important; }
 
-        .print-header div {
-            font-size: 14px;
-            margin-bottom: 2px;
-        }
+        .table { font-size: 12px !important; }
+        .table-responsive { box-shadow: none !important; border: none !important; }
 
-        .table {
-            font-size: 12px !important;
-        }
-
-        .table-responsive {
-            box-shadow: none !important;
-            border: none !important;
-        }
-
-        /* ================= Badge Colors on Print ================= */
         .badge {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
-            color-adjust: exact !important;
-
             padding: 4px 8px !important;
             border-radius: 4px !important;
-            font-weight: 600 !important;
-        }
-
-        .bg-info { background-color: #0dcaf0 !important; color: #fff !important; }
-        .bg-danger { background-color: #dc3545 !important; color: #fff !important; }
-        .bg-primary { background-color: #0d6efd !important; color: #fff !important; }
-        .bg-warning { background-color: #ffc107 !important; color: #000 !important; }
-        .bg-secondary { background-color: #6c757d !important; color: #fff !important; }
-
-        /* Make table borders print properly */
-        table, th, td {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
         }
     }
 
-    .print-header {
-        display: none;
+    .print-header { display: none; }
+
+    /* ================= PAGINATION WRAPPER ================= */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
     }
 
-    /* ================= PAGINATION ================= */
-    .d-flex.flex-column.flex-md-row {
-        font-size: 0.97rem;
-        gap: 8px;
-        margin-top: 8px;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .text-muted.small {
-        font-size: 0.95rem;
-    }
-
-    @media (max-width: 900px) {
-        .page-title { font-size: 1.05rem; }
-        .table th, .table td { font-size: 0.93rem; padding: 6px 3px; }
-        .alasan-ellipsis { max-width: 110px; font-size: 0.92rem; }
-        .table-responsive { padding: 0; box-shadow: none; }
-        .form-select, .form-control { font-size: 0.93rem; padding: 5px 7px; height: 28px; }
-        .badge { font-size: 0.92rem; padding: 4px 8px; }
-    }
 </style>
 
-{{-- ================= TITLE ================= --}}
 <h2 class="page-title mb-4">
     <i class="fa fa-clipboard-list me-2"></i>
     Laporan Data Legalisir
 </h2>
 
-{{-- ================= FILTER FORM ================= --}}
 <form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light align-items-end flex-nowrap" style="flex-wrap:nowrap;">
+    <!-- FILTERS -->
     <div class="col-md-3" style="min-width:180px;">
         <select name="jenis_akta" class="form-select">
             <option value="">Jenis Akta</option>
@@ -234,10 +185,11 @@
             <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
         </select>
     </div>
+
     <div class="col-md-2" style="min-width:150px;">
-        <input type="date" name="tanggal" id="tanggalInput"
-               class="form-control" value="{{ request('tanggal') }}">
+        <input type="date" name="tanggal" id="tanggalInput" class="form-control" value="{{ request('tanggal') }}">
     </div>
+
     <div class="col-md-3" style="min-width:180px;">
         <select name="rentang" id="rentangInput" class="form-select">
             <option value="">Rentang Waktu</option>
@@ -246,11 +198,13 @@
             <option value="month" {{ request('rentang')=='month'?'selected':'' }}>Bulan Ini</option>
         </select>
     </div>
+
     <div class="col-md-2" style="min-width:160px;">
         <button class="btn btn-green w-100" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
     </div>
+
     <div class="col-md-2" style="min-width:180px;">
         <button type="button" class="btn btn-green w-100" onclick="window.print()">
             <i class="fa fa-print"></i> Cetak Laporan
@@ -258,7 +212,6 @@
     </div>
 </form>
 
-{{-- DISABLE AUTOMATIC INPUT --}}
 <script>
     const tanggalInput = document.getElementById('tanggalInput');
     const rentangInput = document.getElementById('rentangInput');
@@ -279,14 +232,12 @@
     });
 </script>
 
-{{-- ================= PRINT HEADER ================= --}}
 <div class="print-header">
     <h2><b>LAPORAN DATA LEGALISIR</b></h2>
     <div>DISDUKCAPIL KOTA CIREBON</div>
     <div>Tanggal Cetak: {{ date('d M Y') }}</div>
 </div>
 
-{{-- ================= TABLE ================= --}}
 <div class="table-responsive shadow-sm rounded">
     <table class="table table-bordered table-hover align-middle">
         <thead class="table-header">
@@ -332,8 +283,7 @@
                 <td class="text-center">
                     @if($row->gambar)
                         <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
-                            <img src="{{ asset('storage/'.$row->gambar) }}"
-                                 style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+                            <img src="{{ asset('storage/'.$row->gambar) }}" >
                         </a>
                     @else
                         <span class="text-muted">Tidak ada</span>
@@ -349,17 +299,20 @@
     </table>
 </div>
 
-{{-- ================= PAGINATION ================= --}}
+{{-- PAGINATION --}}
 @if ($data->hasPages())
-<div class="d-flex flex-column flex-md-row justify-content-between mt-3">
-    <div class="text-muted small mb-2 mb-md-0">
-        Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
-    </div>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
 
-    <div>
-        {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+        <!-- Teks Menampilkan (Hanya tampil di layar, hilang saat print) -->
+        <div class="pagination-info-screen text-muted small mb-2 mb-md-0">
+            Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+            {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+        </div>
     </div>
-</div>
 @endif
 
 @endsection
