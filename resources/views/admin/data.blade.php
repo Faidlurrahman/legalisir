@@ -357,16 +357,14 @@
 </div>
 
 {{-- Navigasi Halaman (Pagination) --}}
-@if ($data->hasPages())
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
-        <div class="text-muted small mb-2 mb-md-0" id="infoScreen">
-            Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
-        </div>
-        <div class="ms-md-auto">
-            {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
-        </div>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+    <div class="text-muted small mb-2 mb-md-0" id="infoScreen">
+        Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
     </div>
-@endif
+    <div class="ms-md-auto">
+        {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
+    </div>
+</div>
 
 {{-- Modal Edit --}}
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
@@ -507,37 +505,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableBody = document.getElementById('dataTableBody');
     const rows = Array.from(tableBody.querySelectorAll('tr'));
     const infoScreen = document.getElementById('infoScreen');
+    const paginationWrapper = document.querySelector('.ms-md-auto');
+
+    // Buat baris "tidak ada data ditampilkan" jika belum ada
+    let noDataRow = tableBody.querySelector('.no-data-row');
+    if (!noDataRow) {
+        noDataRow = document.createElement('tr');
+        noDataRow.className = 'no-data-row';
+        noDataRow.innerHTML = `<td colspan="8" class="text-center text-muted py-4">Tidak ada data ditampilkan.</td>`;
+        noDataRow.style.display = 'none';
+        tableBody.appendChild(noDataRow);
+    }
 
     searchInput.addEventListener('input', function() {
         const keyword = this.value.trim().toLowerCase();
-        let found = false;
+        let visibleRows = 0;
         rows.forEach(row => {
             // Gabungkan isi kolom nama dan nomor akta
             const searchableCells = row.querySelectorAll('.searchable');
             const text = Array.from(searchableCells).map(cell => cell.textContent.trim().toLowerCase()).join(' ');
             if (text.includes(keyword) || keyword === '') {
                 row.style.display = '';
-                found = true;
+                visibleRows++;
             } else {
                 row.style.display = 'none';
             }
         });
-        // Jika tidak ada hasil, tampilkan baris "Tidak ada data ditemukan"
-        const emptyRow = tableBody.querySelector('tr td[colspan]');
-        if (emptyRow) {
-            emptyRow.parentElement.style.display = found ? 'none' : '';
-        }
-        // Sembunyikan info "Menampilkan ..." saat sedang search
+        // Tampilkan baris "Tidak ada data ditampilkan" jika tidak ada hasil
+        noDataRow.style.display = (keyword.length > 0 && visibleRows === 0) ? '' : 'none';
+
+        // Sembunyikan info "Menampilkan ..." dan pagination saat sedang search
         if (infoScreen) {
-            if (keyword.length > 0) {
-                infoScreen.style.display = 'none';
-            } else {
-                infoScreen.style.display = '';
-            }
+            infoScreen.style.display = keyword.length > 0 ? 'none' : '';
+        }
+        if (paginationWrapper) {
+            paginationWrapper.style.display = keyword.length > 0 ? 'none' : '';
         }
     });
 });
-
 
 document.addEventListener('DOMContentLoaded', function() {
     function removeHighlight() {
