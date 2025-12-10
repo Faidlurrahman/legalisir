@@ -49,6 +49,57 @@
         height: 32px;
     }
 
+    /* --- FILTER FORM --- */
+    .filter-form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: end;
+        margin-bottom: 18px;
+    }
+    .filter-form-row .filter-group {
+        flex: 1 1 140px;
+        min-width: 140px;
+        max-width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .filter-form-row .filter-group label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #0b5b57;
+        margin-bottom: 2px;
+    }
+    .filter-form-row .filter-group .form-control,
+    .filter-form-row .filter-group .form-select {
+        font-size: 0.82rem;
+        border-radius: 6px;
+        padding: 5px 10px;
+        height: 30px;
+    }
+    .filter-form-row .btn {
+        font-size: 0.82rem;
+        border-radius: 6px;
+        padding: 5px 14px;
+        font-weight: 600;
+        background: #0b5b57 !important;
+        border-color: #0b5b57 !important;
+        color: #fff !important;
+        min-width: 90px;
+        margin-left: 2px;
+    }
+    @media (max-width: 900px) {
+        .filter-form-row {
+            flex-direction: column;
+            gap: 8px;
+        }
+        .filter-form-row .filter-group {
+            min-width: 100%;
+            max-width: 100%;
+        }
+    }
+
     /* ================= TABLE ================= */
     .table-responsive {
         border-radius: 12px;
@@ -174,10 +225,9 @@
     Laporan Data Legalisir
 </h2>
 
-<form method="GET" class="row g-2 mb-4 p-3 rounded shadow-sm bg-light align-items-end flex-nowrap" style="flex-wrap:nowrap;">
-    <!-- FILTERS -->
-    <div class="col-md-3" style="min-width:180px;">
-        <select name="jenis_akta" class="form-select">
+<form method="GET" class="filter-form-row mb-4">
+    <div class="filter-group">
+        <select name="jenis_akta" id="jenis_akta" class="form-select">
             <option value="">Jenis Akta</option>
             <option value="kelahiran" {{ request('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
             <option value="kematian" {{ request('jenis_akta')=='kematian'?'selected':'' }}>Akta Kematian</option>
@@ -185,12 +235,10 @@
             <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
         </select>
     </div>
-
-    <div class="col-md-2" style="min-width:150px;">
+    <div class="filter-group">
         <input type="date" name="tanggal" id="tanggalInput" class="form-control" value="{{ request('tanggal') }}">
     </div>
-
-    <div class="col-md-3" style="min-width:180px;">
+    <div class="filter-group">
         <select name="rentang" id="rentangInput" class="form-select">
             <option value="">Rentang Waktu</option>
             <option value="today" {{ request('rentang')=='today'?'selected':'' }}>Hari Ini</option>
@@ -198,18 +246,12 @@
             <option value="month" {{ request('rentang')=='month'?'selected':'' }}>Bulan Ini</option>
         </select>
     </div>
-
-    <div class="col-md-2" style="min-width:160px;">
-        <button class="btn btn-green w-100" type="submit">
-            <i class="fa fa-search"></i> Filter
-        </button>
-    </div>
-
-    <div class="col-md-2" style="min-width:180px;">
-        <button type="button" class="btn btn-green w-100" onclick="window.print()">
-            <i class="fa fa-print"></i> Cetak Laporan
-        </button>
-    </div>
+    <button class="btn btn-green align-self-end" type="submit">
+        <i class="fa fa-search"></i> Filter
+    </button>
+    <button type="button" class="btn btn-green align-self-end" onclick="window.print()">
+        <i class="fa fa-print"></i> Cetak Laporan
+    </button>
 </form>
 
 <script>

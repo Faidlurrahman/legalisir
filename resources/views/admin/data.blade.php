@@ -196,30 +196,87 @@
         box-shadow: none;
     }
 }
+
+/* --- FILTER FORM --- */
+.filter-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 18px;
+}
+.filter-form-row .filter-group {
+    flex: 1 1 140px;
+    min-width: 140px;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.filter-form-row .filter-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0b5b57;
+    margin-bottom: 2px;
+}
+.filter-form-row .filter-group .form-control,
+.filter-form-row .filter-group .form-select {
+    font-size: 0.82rem;
+    border-radius: 6px;
+    padding: 5px 10px;
+    height: 30px;
+}
+.filter-form-row .btn {
+    font-size: 0.82rem;
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-weight: 600;
+    background: #0b5b57 !important;
+    border-color: #0b5b57 !important;
+    color: #fff !important;
+    min-width: 90px;
+    margin-left: 2px;
+}
+@media (max-width: 900px) {
+    .filter-form-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .filter-form-row .filter-group {
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
 </style>
-<div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
-    <form method="GET" class="d-flex flex-wrap gap-2 flex-grow-1">
-        <input type="text" name="search" class="form-control" style="max-width:180px" placeholder="Cari nama / nomor akta" value="{{ request('search') }}">
-        <select name="jenis_akta" class="form-select" style="max-width:140px">
-            <option value="">Jenis Akta</option>
-            <option value="kelahiran" {{ request('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
-            <option value="kematian" {{ request('jenis_akta')=='kematian'?'selected':'' }}>Akta Kematian</option>
-            <option value="perkawinan" {{ request('jenis_akta')=='perkawinan'?'selected':'' }}>Akta Perkawinan</option>
-            <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
-        </select>
-        <input type="date" name="tanggal" class="form-control" style="max-width:150px" value="{{ request('tanggal') }}">
-        <button class="btn btn-filter-green" type="submit">
+<div class="filter-form-row mb-4">
+    <form method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 filter-form-row" id="filterForm">
+        <div class="filter-group">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Nama / Nomor Akta" value="{{ request('search') }}">
+        </div>
+        <div class="filter-group">
+            <select name="jenis_akta" id="jenis_akta" class="form-select">
+                <option value="">--- Pilihan Akta ---</option>
+                <option value="kelahiran" {{ request('jenis_akta')=='kelahiran'?'selected':'' }}>Akta Kelahiran</option>
+                <option value="kematian" {{ request('jenis_akta')=='kematian'?'selected':'' }}>Akta Kematian</option>
+                <option value="perkawinan" {{ request('jenis_akta')=='perkawinan'?'selected':'' }}>Akta Perkawinan</option>
+                <option value="perceraian" {{ request('jenis_akta')=='perceraian'?'selected':'' }}>Akta Perceraian</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <input type="date" name="tanggal" id="tanggal" class="form-control" value="{{ request('tanggal') }}">
+        </div>
+        <button class="btn btn-filter-green align-self-end" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
     </form>
-    <a href="{{ route('formLegalisir') }}" class="btn btn-success" style="background:rgb(0,119,62);border-color:rgb(0,119,62);font-weight:bold;">
+    <a href="{{ route('formLegalisir') }}" class="btn btn-success align-self-end">
         <i class="fa fa-plus"></i> Tambah Data
     </a>
 </div>
 
 {{-- Tabel Data --}}
 <div class="table-responsive shadow-sm rounded">
-    <table class="table table-bordered align-middle table-hover">
+    <table class="table table-bordered align-middle table-hover" id="dataTable">
         <thead class="table-header-green">
             <tr>
                 <th style="text-align: center;">No</th>
@@ -232,11 +289,11 @@
                 <th class="text-center" style="width: 100px;">Aksi</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="dataTableBody">
             @forelse($data as $row)
             <tr @if($loop->first && $type == 'success' && session('success')) class="table-green-row" @endif>
                 <td style="background:#fff;color:#222;font-weight:bold;text-align:center;">{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
-                <td>{{ $row->nama }}</td>
+                <td class="searchable">{{ $row->nama }}</td>
                 <td style="text-align: center;">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
@@ -249,7 +306,7 @@
                         {{ ucfirst($row->jenis_akta) }}
                     </span>
                 </td>
-                <td style="text-align: center;">{{ $row->no_akta }}</td>
+                <td class="searchable" style="text-align: center;">{{ $row->no_akta }}</td>
                 <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
                 <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
                 <td style="text-align: center;">
@@ -438,6 +495,34 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnDeleteYes').addEventListener('click', function() {
         if(deleteId) {
             document.getElementById('deleteForm'+deleteId).submit();
+        }
+    });
+});
+
+// Live search filter for Nama & Nomor Akta
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search');
+    const tableBody = document.getElementById('dataTableBody');
+    const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+    searchInput.addEventListener('input', function() {
+        const keyword = this.value.trim().toLowerCase();
+        let found = false;
+        rows.forEach(row => {
+            // Gabungkan isi kolom nama dan nomor akta
+            const searchableCells = row.querySelectorAll('.searchable');
+            const text = Array.from(searchableCells).map(cell => cell.textContent.trim().toLowerCase()).join(' ');
+            if (text.includes(keyword) || keyword === '') {
+                row.style.display = '';
+                found = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        // Jika tidak ada hasil, tampilkan baris "Tidak ada data ditemukan"
+        const emptyRow = tableBody.querySelector('tr td[colspan]');
+        if (emptyRow) {
+            emptyRow.parentElement.style.display = found ? 'none' : '';
         }
     });
 });

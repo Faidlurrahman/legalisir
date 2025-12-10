@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Perbaikan CSS Dashboard agar lebih konsisten di berbagai layar */
     body,
     main.flex-fill {
         background: #fff !important;
@@ -11,21 +10,21 @@
     .dashboard-title {
         font-weight: 700;
         color: #0b5b57;
-        font-size: 1.45rem;
+        font-size: 1.18rem;
     }
 
     .dashboard-clock {
         display: inline-block;
-        min-width: 100px;
+        min-width: 80px;
         text-align: center;
-        font-size: 1.15rem;
+        font-size: 1rem;
         font-weight: 700;
         color: #0b5b57;
         background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
         border: 1px solid rgba(11,91,87,0.18);
         border-radius: 999px;
-        padding: 7px 14px;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        padding: 5px 10px;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
         transition: transform .18s ease, box-shadow .18s ease;
         animation: clockPulse 2.4s ease-in-out infinite;
     }
@@ -39,32 +38,32 @@
     .stat-week-label {
         font-weight: bold;
         color: #0b5b57;
-        font-size: 1.05rem;
+        font-size: 0.97rem;
     }
 
     .card-stat {
         border: none;
-        border-radius: 14px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         transition: transform .3s, box-shadow .3s;
-        padding: 1.2rem 0.8rem;
+        padding: 0.8rem 0.5rem;
         color: #fff;
         position: relative;
         overflow: hidden;
         cursor: pointer;
         animation: statPop .8s;
-        min-height: 90px;
-        font-size: 0.98rem;
+        min-height: 70px;
+        font-size: 0.93rem;
     }
     .card-stat:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.13);
     }
     .card-stat .icon-bg {
         position: absolute;
-        top: -12px;
-        right: -12px;
-        font-size: 2.5rem;
+        top: -10px;
+        right: -10px;
+        font-size: 2rem;
         opacity: 0.12;
         animation: iconPop .8s;
     }
@@ -82,56 +81,56 @@
     }
     .card-stat h6 {
         color: #fff;
-        font-size: 0.98rem;
+        font-size: 0.93rem;
         font-weight: 500;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.3rem;
     }
     .card-stat h3 {
         color: #fff;
         font-weight: 700;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         margin-bottom: 0;
         letter-spacing: 1px;
     }
     .card-stat .desc {
-        font-size: 0.93rem;
+        font-size: 0.9rem;
         color: #ffeccc;
     }
 
     .chart-card {
-        border-radius: 16px;
+        border-radius: 12px;
         background-color: #fff;
-        box-shadow: 0 4px 18px rgba(11,91,87,0.10);
-        padding: 28px 18px 18px 18px;
+        box-shadow: 0 2px 10px rgba(11,91,87,0.10);
+        padding: 14px 8px 8px 8px;
         animation: fadeInUpBig .9s cubic-bezier(.4,2,.6,1);
-        min-height: 260px;
+        min-height: 140px;
         transition: box-shadow .3s, transform .3s;
     }
     .chart-card:hover {
-        box-shadow: 0 12px 32px rgba(11,91,87,0.13);
-        transform: scale(1.015);
+        box-shadow: 0 8px 18px rgba(11,91,87,0.13);
+        transform: scale(1.01);
     }
     .chart-card .stat-title {
         color: #0b5b57;
-        font-size: 1.15rem;
-        font-weight: 800;
+        font-size: 1rem;
+        font-weight: 700;
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 1rem;
+        gap: 8px;
+        margin-bottom: 0.7rem;
         letter-spacing: 0.5px;
         text-shadow: 0 2px 8px rgba(11,91,87,0.08);
     }
     .chart-card .stat-title i {
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: #0b5b57;
     }
 
     .table-card {
-        border-radius: 12px;
+        border-radius: 10px;
         background: #fff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        padding: 14px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        padding: 8px;
         animation: fadeIn .8s;
     }
     .table-card h5,
@@ -145,8 +144,8 @@
         color: #0b5b57 !important;
     }
     .table th, .table td {
-        font-size: 0.97rem;
-        padding: 8px 6px;
+        font-size: 0.93rem;
+        padding: 6px 4px;
     }
     .alasan-ellipsis {
         display: -webkit-box;
@@ -156,10 +155,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: break-word;
-        max-width: 180px;
-        font-size: 0.95rem;
+        max-width: 110px;
+        font-size: 0.92rem;
         line-height: 1.3;
-        min-width: 80px;
+        min-width: 60px;
     }
 
     .btn-week {
@@ -167,10 +166,10 @@
         color: #fff !important;
         border-radius: 8px;
         border: none;
-        padding: 7px 14px;
+        padding: 5px 10px;
         font-weight: 600;
-        margin-right: 6px;
-        font-size: 0.97rem;
+        margin-right: 4px;
+        font-size: 0.93rem;
         transition: background .2s, color .2s, box-shadow .2s;
         box-shadow: 0 2px 8px rgba(11,91,87,0.08);
     }
@@ -181,13 +180,13 @@
     }
 
     @media (max-width: 900px) {
-        .dashboard-title { font-size: 1.1rem; }
-        .table-card, .chart-card { padding: 8px; }
-        .card-stat { min-height: 70px; font-size: 0.93rem; }
-        .card-stat h3 { font-size: 1.1rem; }
-        .chart-card { min-height: 180px; }
-        .table th, .table td { font-size: 0.93rem; padding: 6px 3px; }
-        .alasan-ellipsis { max-width: 110px; font-size: 0.92rem; }
+        .dashboard-title { font-size: 1rem; }
+        .table-card, .chart-card { padding: 5px; }
+        .card-stat { min-height: 50px; font-size: 0.9rem; }
+        .card-stat h3 { font-size: 0.95rem; }
+        .chart-card { min-height: 90px; }
+        .table th, .table td { font-size: 0.9rem; padding: 4px 2px; }
+        .alasan-ellipsis { max-width: 80px; font-size: 0.9rem; }
     }
 </style>
 
