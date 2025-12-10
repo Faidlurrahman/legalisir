@@ -225,7 +225,7 @@
     Laporan Data Legalisir
 </h2>
 
-<form method="GET" class="filter-form-row mb-4">
+<form method="GET" class="filter-form-row mb-4" style="width:100%;">
     <div class="filter-group">
         <select name="jenis_akta" id="jenis_akta" class="form-select">
             <option value="">Jenis Akta</option>
@@ -246,12 +246,14 @@
             <option value="month" {{ request('rentang')=='month'?'selected':'' }}>Bulan Ini</option>
         </select>
     </div>
-    <button class="btn btn-green align-self-end" type="submit">
-        <i class="fa fa-search"></i> Filter
-    </button>
-    <button type="button" class="btn btn-green align-self-end" onclick="window.print()">
-        <i class="fa fa-print"></i> Cetak Laporan
-    </button>
+    <div class="d-flex flex-grow-1 justify-content-end gap-2" style="min-width:220px;">
+        <button class="btn btn-green" type="submit" style="width:48%;">
+            <i class="fa fa-search"></i> Filter
+        </button>
+        <button type="button" class="btn btn-green" onclick="window.print()" style="width:48%;">
+            <i class="fa fa-print"></i> Cetak Laporan
+        </button>
+    </div>
 </form>
 
 <script>
@@ -301,8 +303,6 @@
                     {{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}
                 </td>
 
-                <td>{{ $row->nama }}</td>
-
                 <td class="text-center">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
@@ -315,7 +315,6 @@
                         {{ ucfirst($row->jenis_akta) }}
                     </span>
                 </td>
-
                 <td class="text-center">{{ $row->no_akta }}</td>
 
                 <td class="text-center">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
@@ -344,17 +343,14 @@
 {{-- PAGINATION --}}
 @if ($data->hasPages())
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
-
         <!-- Teks Menampilkan (Hanya tampil di layar, hilang saat print) -->
         <div class="pagination-info-screen text-muted small mb-2 mb-md-0">
             Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
         </div>
-
         <!-- Pagination -->
         <div class="pagination-wrapper">
             {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
         </div>
     </div>
 @endif
-
 @endsection

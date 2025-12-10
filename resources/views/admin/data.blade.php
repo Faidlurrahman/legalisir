@@ -248,8 +248,8 @@
     }
 }
 </style>
-<div class="filter-form-row mb-4">
-    <form method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 filter-form-row" id="filterForm">
+<div class="filter-form-row mb-4" style="align-items: flex-end;">
+    <form method="GET" class="d-flex flex-wrap gap-2 flex-grow-1 filter-form-row" id="filterForm" style="align-items: flex-end; width:100%;">
         <div class="filter-group">
             <input type="text" name="search" id="search" class="form-control" placeholder="Nama / Nomor Akta" value="{{ request('search') }}">
         </div>
@@ -268,10 +268,12 @@
         <button class="btn btn-filter-green align-self-end" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
+        <div class="ms-auto">
+            <a href="{{ route('formLegalisir') }}" class="btn btn-success align-self-end">
+                <i class="fa fa-plus"></i> Tambah Data
+            </a>
+        </div>
     </form>
-    <a href="{{ route('formLegalisir') }}" class="btn btn-success align-self-end">
-        <i class="fa fa-plus"></i> Tambah Data
-    </a>
 </div>
 
 {{-- Tabel Data --}}
