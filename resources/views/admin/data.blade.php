@@ -359,10 +359,10 @@
 {{-- Navigasi Halaman (Pagination) --}}
 @if ($data->hasPages())
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
-        <div class="text-muted small mb-2 mb-md-0">
+        <div class="text-muted small mb-2 mb-md-0" id="infoScreen">
             Menampilkan {{ $data->firstItem() }}–{{ $data->lastItem() }} dari {{ $data->total() }} data
         </div>
-        <div>
+        <div class="ms-md-auto">
             {{ $data->withQueryString()->onEachSide(1)->links('pagination::bootstrap-5') }}
         </div>
     </div>
@@ -506,6 +506,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search');
     const tableBody = document.getElementById('dataTableBody');
     const rows = Array.from(tableBody.querySelectorAll('tr'));
+    const infoScreen = document.getElementById('infoScreen');
 
     searchInput.addEventListener('input', function() {
         const keyword = this.value.trim().toLowerCase();
@@ -526,11 +527,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (emptyRow) {
             emptyRow.parentElement.style.display = found ? 'none' : '';
         }
+        // Sembunyikan info "Menampilkan ..." saat sedang search
+        if (infoScreen) {
+            if (keyword.length > 0) {
+                infoScreen.style.display = 'none';
+            } else {
+                infoScreen.style.display = '';
+            }
+        }
     });
 });
-</script>
 
-<script>
+
 document.addEventListener('DOMContentLoaded', function() {
     function removeHighlight() {
         var firstRow = document.querySelector('.table-green-row');

@@ -295,14 +295,15 @@
                 <th>Gambar</th>
             </tr>
         </thead>
-
         <tbody>
         @forelse($data as $row)
             <tr>
                 <td class="text-center fw-bold">
                     {{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}
                 </td>
-
+                <td style="text-align:left;">
+                    {{ $row->nama }}
+                </td>
                 <td class="text-center">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
@@ -316,11 +317,8 @@
                     </span>
                 </td>
                 <td class="text-center">{{ $row->no_akta }}</td>
-
                 <td class="text-center">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
-
                 <td><span class="alasan-ellipsis">{{ $row->alasan }}</span></td>
-
                 <td class="text-center">
                     @if($row->gambar)
                         <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
