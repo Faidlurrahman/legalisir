@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web'], function () {
         }
         return app(\App\Http\Controllers\LegalisirController::class)->delete($id);
     })->name('admin.data.delete');
+    Route::post('/admin/data/{id}/selesai', [LegalisirController::class, 'setSelesai'])->name('admin.data.selesai');
+    Route::post('/admin/data/{id}/toggle-status', [LegalisirController::class, 'toggleStatus'])->name('admin.data.toggleStatus');
 
     // Profile routes (tambahkan di bawah, masih dalam group)
     Route::get('/admin/profile', function() {
