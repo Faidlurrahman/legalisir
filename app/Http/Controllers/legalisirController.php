@@ -174,6 +174,11 @@ class LegalisirController extends Controller
             $query->whereDate('created_at', $request->tanggal);
         }
 
+        // Filter status
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
         $data = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.data', compact('data'));
@@ -194,6 +199,7 @@ class LegalisirController extends Controller
             "jenis_akta" => "required|string",
             "no_akta"    => "required|string|max:255",
             "alasan"     => "required|string",
+            "status"     => "required|string|in:proses,selesai,ajuan",
             "gambar"     => "nullable|image|mimes:jpg,jpeg,png|max:2048"
         ]);
 
@@ -206,6 +212,7 @@ class LegalisirController extends Controller
         $data->jenis_akta = $request->jenis_akta;
         $data->no_akta = $request->no_akta;
         $data->alasan = $request->alasan;
+        $data->status = $request->status; // <-- pastikan ini ada!
         $data->save();
 
         return redirect()->route('admin.data')

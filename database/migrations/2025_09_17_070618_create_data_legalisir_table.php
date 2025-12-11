@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("no_akta")->nullable();
             $table->text("alasan");
             $table->string("gambar")->nullable();
+            $table->string("status")->default('proses'); // Tambah kolom status
             $table->timestamps();
         });
     }

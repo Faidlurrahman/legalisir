@@ -265,6 +265,14 @@
         <div class="filter-group">
             <input type="date" name="tanggal" id="tanggal" class="form-control" value="{{ request('tanggal') }}">
         </div>
+        <div class="filter-group">
+            <select name="status" id="filter_status" class="form-select">
+                <option value="">--- Pilihan Status ---</option>
+                <option value="proses" {{ request('status')=='proses'?'selected':'' }}>Proses</option>
+                <option value="selesai" {{ request('status')=='selesai'?'selected':'' }}>Selesai</option>
+                <option value="ajuan" {{ request('status')=='ajuan'?'selected':'' }}>Ajuan</option>
+            </select>
+        </div>
         <button class="btn btn-filter-green align-self-end" type="submit">
             <i class="fa fa-search"></i> Filter
         </button>
@@ -287,6 +295,7 @@
                 <th style="text-align: center;">Nomor Akta</th>
                 <th style="text-align: center;">Tanggal Permohonan</th>
                 <th style="text-align: center;">Alasan</th>
+                <th style="text-align: center;">Status</th> <!-- Tambah kolom status -->
                 <th style="text-align: center;">Gambar</th>
                 <th class="text-center" style="width: 100px;">Aksi</th>
             </tr>
@@ -314,6 +323,17 @@
 </td>
 
                 <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
+                <td class="text-center">
+                    <span class="badge
+                        @if($row->status == 'proses') bg-warning text-dark
+                        @elseif($row->status == 'selesai') bg-success
+                        @elseif($row->status == 'ajuan') bg-info
+                        @else bg-secondary
+                        @endif
+                    ">
+                        {{ ucfirst($row->status) }}
+                    </span>
+                </td>
                 <td style="text-align: center;">
                     @if($row->gambar)
                         <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
@@ -332,6 +352,7 @@
                        data-jenis_akta="{{ $row->jenis_akta }}"
                        data-no_akta="{{ $row->no_akta }}"
                        data-alasan="{{ $row->alasan }}"
+                       data-status="{{ $row->status }}"
                        data-gambar="{{ $row->gambar ? asset('storage/'.$row->gambar) : '' }}"
                        title="Edit" data-bs-toggle="modal" data-bs-target="#editModal">
                         <i class="fa fa-edit"></i>
@@ -350,7 +371,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="8" class="text-center text-muted py-4">
+                <td colspan="9" class="text-center text-muted py-4">
                     Tidak ada data ditemukan.
                 </td>
             </tr>
@@ -404,6 +425,14 @@
             <textarea name="alasan" id="edit_alasan" class="form-control" rows="2"></textarea>
           </div>
           <div class="mb-3">
+            <label for="edit_status" class="form-label">Status</label>
+            <select name="status" id="edit_status" class="form-select" required>
+                <option value="proses">Proses</option>
+                <option value="selesai">Selesai</option>
+                <option value="ajuan">Ajuan</option>
+            </select>
+          </div>
+          <div class="mb-3">
             <label for="edit_gambar" class="form-label">Upload Foto Akta (Opsional)</label>
             <input type="file" name="gambar" id="edit_gambar" class="form-control" accept="image/*">
             <div class="mt-2">
@@ -455,6 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit_jenis_akta').value = this.dataset.jenis_akta;
             document.getElementById('edit_no_akta').value = this.dataset.no_akta;
             document.getElementById('edit_alasan').value = this.dataset.alasan;
+            document.getElementById('edit_status').value = this.dataset.status;
             const gambar = this.dataset.gambar;
             const preview = document.getElementById('edit_preview');
             if(gambar) {
