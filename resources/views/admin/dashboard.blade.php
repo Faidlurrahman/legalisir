@@ -21,7 +21,7 @@
         font-weight: 700;
         color: #0b5b57;
         background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-        border: 1px solid rgba(11,91,87,0.18);
+        border: 1px solid rgba(11, 91, 87, 0.18);
         border-radius: 999px;
         padding: 5px 10px;
         box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
@@ -30,9 +30,17 @@
     }
 
     @keyframes clockPulse {
-        0% { transform: translateY(0);}
-        50% { transform: translateY(-2px);}
-        100% { transform: translateY(0);}
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-2px);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
     }
 
     .stat-week-label {
@@ -55,10 +63,12 @@
         min-height: 70px;
         font-size: 0.93rem;
     }
+
     .card-stat:hover {
         transform: translateY(-3px) scale(1.01);
-        box-shadow: 0 6px 18px rgba(0,0,0,0.13);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.13);
     }
+
     .card-stat .icon-bg {
         position: absolute;
         top: -10px;
@@ -67,24 +77,30 @@
         opacity: 0.12;
         animation: iconPop .8s;
     }
+
     .card-stat.kelahiran {
         background: linear-gradient(135deg, #38b2ac 80%, #319795 100%);
     }
+
     .card-stat.kematian {
         background: linear-gradient(135deg, #f87171 80%, #ef4444 100%);
     }
+
     .card-stat.kawin {
         background: linear-gradient(135deg, #6366f1 80%, #4338ca 100%);
     }
+
     .card-stat.cerai {
         background: linear-gradient(135deg, #fbbf24 80%, #f7a61c 100%);
     }
+
     .card-stat h6 {
         color: #fff;
         font-size: 0.93rem;
         font-weight: 500;
         margin-bottom: 0.3rem;
     }
+
     .card-stat h3 {
         color: #fff;
         font-weight: 700;
@@ -92,6 +108,7 @@
         margin-bottom: 0;
         letter-spacing: 1px;
     }
+
     .card-stat .desc {
         font-size: 0.9rem;
         color: #ffeccc;
@@ -100,16 +117,18 @@
     .chart-card {
         border-radius: 12px;
         background-color: #fff;
-        box-shadow: 0 2px 10px rgba(11,91,87,0.10);
+        box-shadow: 0 2px 10px rgba(11, 91, 87, 0.10);
         padding: 14px 8px 8px 8px;
-        animation: fadeInUpBig .9s cubic-bezier(.4,2,.6,1);
+        animation: fadeInUpBig .9s cubic-bezier(.4, 2, .6, 1);
         min-height: 140px;
         transition: box-shadow .3s, transform .3s;
     }
+
     .chart-card:hover {
-        box-shadow: 0 8px 18px rgba(11,91,87,0.13);
+        box-shadow: 0 8px 18px rgba(11, 91, 87, 0.13);
         transform: scale(1.01);
     }
+
     .chart-card .stat-title {
         color: #0b5b57;
         font-size: 1rem;
@@ -119,8 +138,9 @@
         gap: 8px;
         margin-bottom: 0.7rem;
         letter-spacing: 0.5px;
-        text-shadow: 0 2px 8px rgba(11,91,87,0.08);
+        text-shadow: 0 2px 8px rgba(11, 91, 87, 0.08);
     }
+
     .chart-card .stat-title i {
         font-size: 1rem;
         color: #0b5b57;
@@ -133,20 +153,25 @@
         padding: 8px;
         animation: fadeIn .8s;
     }
+
     .table-card h5,
     .table-card i.fa-list {
         color: #0b5b57 !important;
     }
+
     .table thead,
     .table thead tr,
     .table thead th {
         background: #f5f5f5 !important;
         color: #0b5b57 !important;
     }
-    .table th, .table td {
+
+    .table th,
+    .table td {
         font-size: 0.93rem;
         padding: 6px 4px;
     }
+
     .alasan-ellipsis {
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -171,22 +196,48 @@
         margin-right: 4px;
         font-size: 0.93rem;
         transition: background .2s, color .2s, box-shadow .2s;
-        box-shadow: 0 2px 8px rgba(11,91,87,0.08);
+        box-shadow: 0 2px 8px rgba(11, 91, 87, 0.08);
     }
+
     .btn-week:hover {
         background: #0e736e;
         color: #fff !important;
-        box-shadow: 0 4px 16px rgba(11,91,87,0.13);
+        box-shadow: 0 4px 16px rgba(11, 91, 87, 0.13);
     }
 
     @media (max-width: 900px) {
-        .dashboard-title { font-size: 1rem; }
-        .table-card, .chart-card { padding: 5px; }
-        .card-stat { min-height: 50px; font-size: 0.9rem; }
-        .card-stat h3 { font-size: 0.95rem; }
-        .chart-card { min-height: 90px; }
-        .table th, .table td { font-size: 0.9rem; padding: 4px 2px; }
-        .alasan-ellipsis { max-width: 80px; font-size: 0.9rem; }
+        .dashboard-title {
+            font-size: 1rem;
+        }
+
+        .table-card,
+        .chart-card {
+            padding: 5px;
+        }
+
+        .card-stat {
+            min-height: 50px;
+            font-size: 0.9rem;
+        }
+
+        .card-stat h3 {
+            font-size: 0.95rem;
+        }
+
+        .chart-card {
+            min-height: 90px;
+        }
+
+        .table th,
+        .table td {
+            font-size: 0.9rem;
+            padding: 4px 2px;
+        }
+
+        .alasan-ellipsis {
+            max-width: 80px;
+            font-size: 0.9rem;
+        }
     }
 </style>
 
@@ -194,8 +245,14 @@
     <div>
         <h2 class="dashboard-title mb-0">Dashboard Admin</h2>
         <div class="mt-2">
-            <span class="stat-week-label">Minggu: {{ $startOfWeek->format('d M Y') }} - {{ $startOfWeek->copy()->addDays(4)->format('d M Y') }}</span>
+            <span class="stat-week-label">
+                Minggu:
+                {{ $startOfWeek->locale('id')->translatedFormat('d M Y') }}
+                -
+                {{ $startOfWeek->copy()->addDays(4)->locale('id')->translatedFormat('d M Y') }}
+            </span>
         </div>
+
     </div>
     <div class="flex-grow-1 d-flex justify-content-center">
         <span id="dashboardClock" class="dashboard-clock" aria-live="polite"></span>
@@ -325,9 +382,9 @@
                     <th class="text-center">Nama</th>
                     <th class="text-center">Jenis Akta</th>
                     <th class="text-center">No Akta</th>
+                    <th class="text-center">Tanggal</th> <!-- DIPINDAH -->
                     <th class="text-center">Alasan</th>
                     <th class="text-center">Gambar</th>
-                    <th class="text-center">Tanggal</th>
                 </tr>
             </thead>
             <tbody>
@@ -348,6 +405,12 @@
                         </span>
                     </td>
                     <td class="text-center">{{ $item->no_akta }}</td>
+
+                    <!-- TANGGAL DIPINDAH -->
+                    <td class="text-center">
+                        {{ $item->created_at->locale('id')->translatedFormat('d M Y') }}
+                    </td>
+
                     <td>
                         <span class="alasan-ellipsis" title="{{ $item->alasan }}">{{ $item->alasan }}</span>
                     </td>
@@ -358,7 +421,6 @@
                         <span class="text-muted">-</span>
                         @endif
                     </td>
-                    <td class="text-center">{{ $item->created_at->format('d M Y') }}</td>
                 </tr>
                 @empty
                 <tr>
@@ -369,6 +431,7 @@
         </table>
     </div>
 </div>
+
 
 @push('scripts')
 <script>

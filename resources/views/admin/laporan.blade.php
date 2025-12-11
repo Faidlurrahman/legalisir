@@ -317,7 +317,10 @@
                     </span>
                 </td>
                 <td class="text-center">{{ $row->no_akta }}</td>
-                <td class="text-center">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
+              <td class="text-center">
+    {{ \Carbon\Carbon::parse($row->created_at)->locale('id')->translatedFormat('d M Y') }}
+</td>
+
                 <td><span class="alasan-ellipsis">{{ $row->alasan }}</span></td>
                 <td class="text-center">
                     @if($row->gambar)

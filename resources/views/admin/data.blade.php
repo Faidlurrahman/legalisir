@@ -309,7 +309,10 @@
                     </span>
                 </td>
                 <td class="searchable" style="text-align: center;">{{ $row->no_akta }}</td>
-                <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->created_at)->format('d M Y') }}</td>
+                <td class="text-center">
+    {{ \Carbon\Carbon::parse($row->created_at)->locale('id')->translatedFormat('d M Y') }}
+</td>
+
                 <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
                 <td style="text-align: center;">
                     @if($row->gambar)
