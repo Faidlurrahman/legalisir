@@ -53,6 +53,14 @@ Route::group(['middleware' => 'web'], function () {
         return app(\App\Http\Controllers\LegalisirController::class)->delete($id);
     })->name('admin.data.delete');
 
+    // Mark as finished (set status and finished_at)
+    Route::post('/admin/data/{id}/finish', function($id) {
+        if (!session('admin_id')) {
+            return redirect()->route('admin.login');
+        }
+        return app(\App\Http\Controllers\LegalisirController::class)->finish(request(), $id);
+    })->name('admin.data.finish');
+
     // Profile routes (tambahkan di bawah, masih dalam group)
     Route::get('/admin/profile', function() {
         if (!session('admin_id')) {

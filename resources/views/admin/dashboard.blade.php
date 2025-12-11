@@ -379,7 +379,7 @@
             <thead style="background:#0b5b57; color:#fff;">
                 <tr>
                     <th class="text-center" style="width:40px;">No</th>
-                    <th class="text-center">Nama</th>
+                    <th class="text-center">Nam</th>
                     <th class="text-center">Jenis Akta</th>
                     <th class="text-center">No Akta</th>
                     <th class="text-center">Tanggal</th> <!-- DIPINDAH -->

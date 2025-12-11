@@ -16,6 +16,12 @@ class data_legalisir extends Model
         "jenis_akta",
         "no_akta",
         "alasan",
-        "gambar"
+        "gambar",
+        "status",
+        "finished_at"
+    ];
+
+    protected $casts = [
+        'finished_at' => 'datetime',
     ];
 }

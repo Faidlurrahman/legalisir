@@ -230,6 +230,32 @@ class LegalisirController extends Controller
             ->with('alert_type', 'danger');
     }
 
+    /**
+     * Mark an item as finished and save finished_at timestamp.
+     */
+    public function finish(Request $request, $id)
+    {
+        $data = data_legalisir::findOrFail($id);
+        // Determine finished_at: use provided value or now
+        if ($request->filled('finished_at')) {
+            try {
+                $finished = Carbon::parse($request->input('finished_at'));
+            } catch (\Exception $e) {
+                $finished = Carbon::now();
+            }
+        } else {
+            $finished = Carbon::now();
+        }
+
+        $data->status = 'selesai';
+        $data->finished_at = $finished;
+        $data->save();
+
+        return redirect()->route('admin.data')
+            ->with('success', 'Data dengan Nomor Akta '.$data->no_akta.' ditandai selesai pada '.$finished->translatedFormat('d M Y'))
+            ->with('alert_type', 'success');
+    }
+
     // Halaman Laporan Legalisir
     public function laporan(Request $request)
     {
