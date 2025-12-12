@@ -260,6 +260,7 @@ class LegalisirController extends Controller
     public function laporan(Request $request)
     {
         $query = data_legalisir::query();
+
         // Filter jenis akta
         if ($request->jenis_akta) {
             $query->where('jenis_akta', $request->jenis_akta);
@@ -270,19 +271,46 @@ class LegalisirController extends Controller
         } elseif ($request->rentang) {
             switch ($request->rentang) {
                 case 'today':
-                    $query->whereDate('created_at', Carbon::today());
+                    $query->whereDate('created_at', \Carbon\Carbon::today());
                     break;
                 case '7days':
-                    $query->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()]);
+                    $query->whereBetween('created_at', [\Carbon\Carbon::now()->subDays(6)->startOfDay(), \Carbon\Carbon::now()->endOfDay()]);
                     break;
                 case 'month':
-                    $query->whereMonth('created_at', Carbon::now()->month)
-                          ->whereYear('created_at', Carbon::now()->year);
+                    $query->whereMonth('created_at', \Carbon\Carbon::now()->month)
+                          ->whereYear('created_at', \Carbon\Carbon::now()->year);
                     break;
             }
         }
+        // Filter status (tambahkan agar sama seperti data.blade.php)
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
         $data = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.laporan', compact('data'));
+    }
+
+    public function setSelesai($id)
+    {
+        $data = data_legalisir::findOrFail($id);
+        $data->status = 'selesai';
+        $data->updated_at = now(); // update tanggal selesai
+        $data->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function toggleStatus(Request $request, $id)
+    {
+        $data = data_legalisir::findOrFail($id);
+        $status = $request->status === 'selesai' ? 'selesai' : 'proses';
+        $data->status = $status;
+        if ($status == 'selesai') {
+            $data->updated_at = now();
+        }
+        $data->save();
+        return response()->json(['success' => true]);
     }
 }
 

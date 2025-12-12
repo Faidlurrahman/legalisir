@@ -99,9 +99,27 @@
 }
 
 .table th, .table td {
-    padding: 8px 6px;
+    padding: 4px 4px !important;
+    font-size: 0.93rem;
     vertical-align: middle;
-    border-color: #e0e0e0 !important;
+    white-space: nowrap;
+}
+
+.table .btn {
+    padding: 3px 7px;
+    font-size: 0.92rem;
+    min-width: 28px;
+    min-height: 28px;
+    margin-right: 2px;
+}
+
+.table .btn i {
+    font-size: 1rem;
+}
+
+.table .alasan-ellipsis {
+    max-width: 80px;
+    font-size: 0.92rem;
 }
 
 .table-header-green th {
@@ -184,12 +202,11 @@
 
 @media (max-width: 900px) {
     .table th, .table td {
-        font-size: 0.93rem;
-        padding: 6px 3px;
+        font-size: 0.90rem;
+        padding: 3px 2px !important;
     }
-    .alasan-ellipsis {
-        max-width: 110px;
-        font-size: 0.92rem;
+    .table .alasan-ellipsis {
+        max-width: 60px;
     }
     .table-responsive {
         padding: 0;
@@ -270,7 +287,6 @@
                 <option value="">--- Pilihan Status ---</option>
                 <option value="proses" {{ request('status')=='proses'?'selected':'' }}>Proses</option>
                 <option value="selesai" {{ request('status')=='selesai'?'selected':'' }}>Selesai</option>
-                <option value="ajuan" {{ request('status')=='ajuan'?'selected':'' }}>Ajuan</option>
             </select>
         </div>
         <button class="btn btn-filter-green align-self-end" type="submit">
@@ -289,15 +305,15 @@
     <table class="table table-bordered align-middle table-hover" id="dataTable">
         <thead class="table-header-green">
             <tr>
-                <th style="text-align: center;">No</th>
-                <th style="text-align: center;">Nama</th>
-                <th style="text-align: center;">Jenis Akta</th>
-                <th style="text-align: center;">Nomor Akta</th>
-                <th style="text-align: center;">Tanggal Permohonan</th>
-                <th style="text-align: center;">Alasan</th>
-                <th style="text-align: center;">Status</th> <!-- Tambah kolom status -->
-                <th style="text-align: center;">Gambar</th>
-                <th class="text-center" style="width: 100px;">Aksi</th>
+                <th style="text-align:center;width:32px;">No</th>
+                <th style="text-align:center;width:90px;">Nama</th>
+                <th style="text-align:center;width:70px;">Jenis Akta</th>
+                <th style="text-align:center;width:80px;">Nomor Akta</th>
+                <th style="text-align:center;width:80px;">Tanggal</th>
+                <th style="text-align:center;width:110px;">Alasan</th>
+                <th style="text-align:center;width:70px;">Status</th>
+                <th style="text-align:center;width:60px;">Gambar</th>
+                <th class="text-center" style="width:120px;min-width:100px;">Aksi</th>
             </tr>
         </thead>
         <tbody id="dataTableBody">
@@ -319,19 +335,21 @@
                 </td>
                 <td class="searchable" style="text-align: center;">{{ $row->no_akta }}</td>
                 <td class="text-center">
-    {{ \Carbon\Carbon::parse($row->created_at)->locale('id')->translatedFormat('d M Y') }}
-</td>
-
+                    {{ \Carbon\Carbon::parse($row->created_at)->locale('id')->translatedFormat('d M Y') }}
+                </td>
                 <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
                 <td class="text-center">
                     <span class="badge
                         @if($row->status == 'proses') bg-warning text-dark
                         @elseif($row->status == 'selesai') bg-success
-                        @elseif($row->status == 'ajuan') bg-info
                         @else bg-secondary
                         @endif
                     ">
                         {{ ucfirst($row->status) }}
+                        @if($row->status == 'selesai')
+                            <br>
+                            <small>{{ \Carbon\Carbon::parse($row->updated_at)->format('d M Y') }}</small>
+                        @endif
                     </span>
                 </td>
                 <td style="text-align: center;">
@@ -347,14 +365,14 @@
                 </td>
                 <td class="text-center">
                     <button type="button" class="btn btn-sm btn-info btn-edit"
-                       data-id="{{ $row->id }}"
-                       data-nama="{{ $row->nama }}"
-                       data-jenis_akta="{{ $row->jenis_akta }}"
-                       data-no_akta="{{ $row->no_akta }}"
-                       data-alasan="{{ $row->alasan }}"
-                       data-status="{{ $row->status }}"
-                       data-gambar="{{ $row->gambar ? asset('storage/'.$row->gambar) : '' }}"
-                       title="Edit" data-bs-toggle="modal" data-bs-target="#editModal">
+                        data-id="{{ $row->id }}"
+                        data-nama="{{ $row->nama }}"
+                        data-jenis_akta="{{ $row->jenis_akta }}"
+                        data-no_akta="{{ $row->no_akta }}"
+                        data-alasan="{{ $row->alasan }}"
+                        data-status="{{ $row->status }}"
+                        data-gambar="{{ $row->gambar ? asset('storage/'.$row->gambar) : '' }}"
+                        title="Edit" data-bs-toggle="modal" data-bs-target="#editModal">
                         <i class="fa fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-sm btn-danger btn-delete" 
@@ -362,6 +380,16 @@
                         data-nama="{{ $row->nama }}" 
                         title="Hapus">
                         <i class="fa fa-trash"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-success btn-toggle-status"
+                        data-id="{{ $row->id }}"
+                        data-status="{{ $row->status }}"
+                        title="Toggle Selesai/Proses">
+                        @if($row->status == 'selesai')
+                            <i class="fa fa-check-square"></i>
+                        @else
+                            <i class="fa fa-square"></i>
+                        @endif
                     </button>
                     <form id="deleteForm{{ $row->id }}" action="{{ route('admin.data.delete', $row->id) }}" method="POST" style="display:none;">
                         @csrf
@@ -429,7 +457,6 @@
             <select name="status" id="edit_status" class="form-select" required>
                 <option value="proses">Proses</option>
                 <option value="selesai">Selesai</option>
-                <option value="ajuan">Ajuan</option>
             </select>
           </div>
           <div class="mb-3">
@@ -600,6 +627,59 @@ document.addEventListener('DOMContentLoaded', function() {
             if(table) table.scrollIntoView({behavior: "smooth", block: "start"});
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-check-selesai').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            if(confirm('Tandai data ini sebagai selesai?')) {
+                fetch(`/admin/data/${id}/selesai`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        location.reload();
+                    } else {
+                        alert('Gagal mengubah status!');
+                    }
+                });
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-toggle-status').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const currentStatus = this.dataset.status;
+            let newStatus = currentStatus === 'selesai' ? 'proses' : 'selesai';
+            if(confirm('Ubah status menjadi ' + newStatus + '?')) {
+                fetch(`/admin/data/${id}/toggle-status`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({status: newStatus})
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        location.reload();
+                    } else {
+                        alert('Gagal mengubah status!');
+                    }
+                });
+            }
+        });
+    });
 });
 </script>
 

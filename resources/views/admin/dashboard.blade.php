@@ -382,8 +382,9 @@
                     <th class="text-center">Nama</th>
                     <th class="text-center">Jenis Akta</th>
                     <th class="text-center">No Akta</th>
-                    <th class="text-center">Tanggal</th> <!-- DIPINDAH -->
+                    <th class="text-center">Tanggal</th>
                     <th class="text-center">Alasan</th>
+                    <th class="text-center">Status</th>
                     <th class="text-center">Gambar</th>
                 </tr>
             </thead>
@@ -405,26 +406,37 @@
                         </span>
                     </td>
                     <td class="text-center">{{ $item->no_akta }}</td>
-
-                    <!-- TANGGAL DIPINDAH -->
                     <td class="text-center">
                         {{ $item->created_at->locale('id')->translatedFormat('d M Y') }}
                     </td>
-
                     <td>
                         <span class="alasan-ellipsis" title="{{ $item->alasan }}">{{ $item->alasan }}</span>
                     </td>
                     <td class="text-center">
+                        <span class="badge
+                            @if($item->status == 'proses') bg-warning text-dark
+                            @elseif($item->status == 'selesai') bg-success
+                            @else bg-secondary
+                            @endif
+                        ">
+                            {{ ucfirst($item->status) }}
+                            @if($item->status == 'selesai')
+                                <br>
+                                <small>{{ \Carbon\Carbon::parse($item->updated_at)->format('d M Y') }}</small>
+                            @endif
+                        </span>
+                    </td>
+                    <td class="text-center">
                         @if(!empty($item->gambar))
-                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
+                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
                         @else
-                        <span class="text-muted">-</span>
+                            <span class="text-muted">-</span>
                         @endif
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="text-center text-muted">Belum ada data</td>
+                    <td colspan="8" class="text-center text-muted">Belum ada data</td>
                 </tr>
                 @endforelse
             </tbody>

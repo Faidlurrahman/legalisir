@@ -72,6 +72,23 @@
         margin-bottom: 2px;
     }
     .filter-form-row .filter-group .form-control,
+    .filter-form-row .filter-group .form-select,
+    .filter-form-row .btn-green {
+        font-size: 0.82rem;
+        border-radius: 6px;
+        padding: 5px 10px;
+        height: 32px; /* SAMA TINGGI */
+        box-sizing: border-box;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .filter-form-row .btn-green {
+        min-width: 90px;
+        margin-left: 2px;
+        height: 32px; /* SAMA TINGGI */
+        padding: 5px 14px;
+    }
+    .filter-form-row .filter-group .form-control,
     .filter-form-row .filter-group .form-select {
         font-size: 0.82rem;
         border-radius: 6px;
@@ -246,6 +263,13 @@
             <option value="month" {{ request('rentang')=='month'?'selected':'' }}>Bulan Ini</option>
         </select>
     </div>
+    <div class="filter-group">
+        <select name="status" id="filter_status" class="form-select">
+            <option value="">--- Pilihan Status ---</option>
+            <option value="proses" {{ request('status')=='proses'?'selected':'' }}>Proses</option>
+            <option value="selesai" {{ request('status')=='selesai'?'selected':'' }}>Selesai</option>
+        </select>
+    </div>
     <div class="d-flex flex-grow-1 justify-content-end gap-2" style="min-width:220px;">
         <button class="btn btn-green" type="submit" style="width:48%;">
             <i class="fa fa-search"></i> Filter
@@ -286,25 +310,22 @@
     <table class="table table-bordered table-hover align-middle">
         <thead class="table-header">
             <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Jenis Akta</th>
-                <th>Nomor Akta</th>
-                <th>Tanggal Permohonan</th>
-                <th>Alasan</th>
-                <th>Gambar</th>
+                <th style="text-align:center;width:32px;">No</th>
+                <th style="text-align:center;width:90px;">Nama</th>
+                <th style="text-align:center;width:70px;">Jenis Akta</th>
+                <th style="text-align:center;width:80px;">Nomor Akta</th>
+                <th style="text-align:center;width:80px;">Tanggal</th>
+                <th style="text-align:center;width:110px;">Alasan</th>
+                <th style="text-align:center;width:70px;">Status</th>
+                <th style="text-align:center;width:60px;">Gambar</th>
             </tr>
         </thead>
         <tbody>
         @forelse($data as $row)
             <tr>
-                <td class="text-center fw-bold">
-                    {{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}
-                </td>
-                <td style="text-align:left;">
-                    {{ $row->nama }}
-                </td>
-                <td class="text-center">
+                <td class="text-center fw-bold">{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
+                <td class="searchable">{{ $row->nama }}</td>
+                <td style="text-align: center;">
                     <span class="badge
                         @if($row->jenis_akta == 'kelahiran') bg-info
                         @elseif($row->jenis_akta == 'kematian') bg-danger
@@ -316,16 +337,31 @@
                         {{ ucfirst($row->jenis_akta) }}
                     </span>
                 </td>
-                <td class="text-center">{{ $row->no_akta }}</td>
-              <td class="text-center">
-    {{ \Carbon\Carbon::parse($row->created_at)->locale('id')->translatedFormat('d M Y') }}
-</td>
-
-                <td><span class="alasan-ellipsis">{{ $row->alasan }}</span></td>
+                <td class="searchable" style="text-align: center;">{{ $row->no_akta }}</td>
                 <td class="text-center">
+                    {{ \Carbon\Carbon::parse($row->created_at)->locale('id')->translatedFormat('d M Y') }}
+                </td>
+                <td><span class="alasan-ellipsis" title="{{ $row->alasan }}">{{ $row->alasan }}</span></td>
+                <td class="text-center">
+                    <span class="badge
+                        @if($row->status == 'proses') bg-warning text-dark
+                        @elseif($row->status == 'selesai') bg-success
+                        @else bg-secondary
+                        @endif
+                    ">
+                        {{ ucfirst($row->status) }}
+                        @if($row->status == 'selesai')
+                            <br>
+                            <small>{{ \Carbon\Carbon::parse($row->updated_at)->format('d M Y') }}</small>
+                        @endif
+                    </span>
+                </td>
+                <td style="text-align: center;">
                     @if($row->gambar)
                         <a href="{{ asset('storage/'.$row->gambar) }}" target="_blank">
-                            <img src="{{ asset('storage/'.$row->gambar) }}" >
+                            <img src="{{ asset('storage/'.$row->gambar) }}" 
+                                 alt="Gambar" 
+                                 style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #ddd;">
                         </a>
                     @else
                         <span class="text-muted">Tidak ada</span>
@@ -334,7 +370,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="7" class="text-center text-muted py-4">Tidak ada data ditemukan.</td>
+                <td colspan="8" class="text-center text-muted py-4">Tidak ada data ditemukan.</td>
             </tr>
         @endforelse
         </tbody>

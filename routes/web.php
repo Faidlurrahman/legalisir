@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web'], function () {
         }
         return app(\App\Http\Controllers\LegalisirController::class)->delete($id);
     })->name('admin.data.delete');
+    Route::post('/admin/data/{id}/selesai', [LegalisirController::class, 'setSelesai'])->name('admin.data.selesai');
+    Route::post('/admin/data/{id}/toggle-status', [LegalisirController::class, 'toggleStatus'])->name('admin.data.toggleStatus');
 
     // Mark as finished (set status and finished_at)
     Route::post('/admin/data/{id}/finish', function($id) {
