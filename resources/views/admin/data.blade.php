@@ -497,6 +497,27 @@
   </div>
 </div>
 
+{{-- Modal Konfirmasi Toggle Status --}}
+<div class="modal fade" id="confirmToggleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content text-center p-3">
+      <div class="modal-body">
+        <div class="mb-2 fw-semibold">Konfirmasi Ubah Status</div>
+        <div class="mb-1">
+          <span class="fw-bold text-info" id="toggleNama"></span>
+        </div>
+        <div class="mb-3 small text-muted">
+          Status akan diubah menjadi <span class="fw-bold" id="toggleNewStatus"></span>
+        </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" class="btn btn-success btn-sm" id="btnToggleYes">YA</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">BATAL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -655,30 +676,48 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    let toggleId = null;
+    let toggleNama = '';
+    let toggleNewStatus = '';
+
     document.querySelectorAll('.btn-toggle-status').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            const id = this.dataset.id;
+            toggleId = this.dataset.id;
             const currentStatus = this.dataset.status;
-            let newStatus = currentStatus === 'selesai' ? 'proses' : 'selesai';
-            if(confirm('Ubah status menjadi ' + newStatus + '?')) {
-                fetch(`/admin/data/${id}/toggle-status`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({status: newStatus})
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.success) {
-                        location.reload();
-                    } else {
-                        alert('Gagal mengubah status!');
-                    }
-                });
-            }
+            toggleNewStatus = currentStatus === 'selesai' ? 'proses' : 'selesai';
+            
+            // Ambil nama dari baris
+            toggleNama = this.closest('tr').querySelector('td:nth-child(2)')?.textContent?.trim() || '';
+            
+            // Update text di modal
+            document.getElementById('toggleNama').textContent = toggleNama;
+            document.getElementById('toggleNewStatus').textContent = toggleNewStatus === 'selesai' ? 'Selesai' : 'Proses';
+            
+            // Tampilkan modal
+            var modal = new bootstrap.Modal(document.getElementById('confirmToggleModal'));
+            modal.show();
         });
+    });
+
+    document.getElementById('btnToggleYes').addEventListener('click', function() {
+        if(toggleId) {
+            fetch(`/admin/data/${toggleId}/toggle-status`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({status: toggleNewStatus})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    location.reload();
+                } else {
+                    alert('Gagal mengubah status!');
+                }
+            });
+        }
     });
 });
 </script>
